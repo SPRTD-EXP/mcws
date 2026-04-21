@@ -208,7 +208,7 @@ export default function ProductClient({ product }: ProductClientProps) {
                 onClick={() => setSelectedSize(size)}
                 className={`w-12 h-12 text-sm transition-all duration-200 ${
                   selectedSize === size
-                    ? "bg-white text-black"
+                    ? "bg-[#8ecfb5] text-black border border-[#8ecfb5]"
                     : "bg-transparent border border-[#333] text-[#999] hover:border-[#666] hover:text-white"
                 }`}
                 style={{ fontFamily: "var(--font-sans)" }}
@@ -234,7 +234,7 @@ export default function ProductClient({ product }: ProductClientProps) {
                 onClick={() => setFulfillment(method)}
                 className={`px-5 py-2.5 text-xs tracking-[0.15em] uppercase transition-all duration-200 ${
                   fulfillment === method
-                    ? "bg-white text-black"
+                    ? "bg-[#8ecfb5] text-black"
                     : "bg-transparent text-[#999] hover:text-white"
                 }`}
                 style={{ fontFamily: "var(--font-sans)" }}

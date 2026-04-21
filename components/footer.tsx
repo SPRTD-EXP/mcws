@@ -2,7 +2,7 @@ import Link from "next/link";
 import GeometricDivider from "./geometric-divider";
 
 // ▼ INSTAGRAM — paste your handle here (without the @)
-const INSTAGRAM_HANDLE = "mcws_detroit";
+const INSTAGRAM_HANDLE = "mcws_canton";
 const INSTAGRAM_URL = `https://instagram.com/${INSTAGRAM_HANDLE}`;
 
 export default function Footer() {

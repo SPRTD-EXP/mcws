@@ -29,14 +29,8 @@ export default function PoliciesPage() {
           <div className="space-y-16">
             {/* Shipping */}
             <section>
-              <p
-                className="text-[10px] tracking-[0.3em] uppercase text-[#8ecfb5] mb-5"
-                style={{ fontFamily: "var(--font-sans)" }}
-              >
-                Shipping
-              </p>
               <h2
-                className="text-2xl font-light text-white mb-5"
+                className="text-2xl font-light text-[#8ecfb5] mb-5 text-center"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Shipping Policy
@@ -60,7 +54,7 @@ export default function PoliciesPage() {
                 </p>
                 <p>
                   For local pickup orders, you will be notified by email when
-                  your order is ready. Pickup is available at the mosque —
+                  your order is ready. Pickup is available at the mosque
                   address provided upon order confirmation.
                 </p>
               </div>
@@ -70,14 +64,8 @@ export default function PoliciesPage() {
 
             {/* Returns */}
             <section>
-              <p
-                className="text-[10px] tracking-[0.3em] uppercase text-[#8ecfb5] mb-5"
-                style={{ fontFamily: "var(--font-sans)" }}
-              >
-                Returns
-              </p>
               <h2
-                className="text-2xl font-light text-white mb-5"
+                className="text-2xl font-light text-[#8ecfb5] mb-5 text-center"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Return & Refund Policy
@@ -114,14 +102,8 @@ export default function PoliciesPage() {
 
             {/* Privacy */}
             <section>
-              <p
-                className="text-[10px] tracking-[0.3em] uppercase text-[#8ecfb5] mb-5"
-                style={{ fontFamily: "var(--font-sans)" }}
-              >
-                Privacy
-              </p>
               <h2
-                className="text-2xl font-light text-white mb-5"
+                className="text-2xl font-light text-[#8ecfb5] mb-5 text-center"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Privacy Policy
