@@ -40,7 +40,7 @@ export default function PoliciesPage() {
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 <p>
-                  All orders are made to order. Please allow <strong className="text-white">2–3 weeks</strong> for
+                  All orders are made to order. Please allow <strong className="text-white">1 week</strong> for
                   production and fulfillment before your order ships.
                 </p>
                 <p>

@@ -18,6 +18,13 @@ export default function Footer() {
         </span>
         <nav className="flex items-center gap-6">
           <Link
+            href="/contact"
+            className="text-xs tracking-[0.2em] uppercase text-[#999] hover:text-white transition-colors duration-200"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            Contact
+          </Link>
+          <Link
             href="/policies"
             className="text-xs tracking-[0.2em] uppercase text-[#999] hover:text-white transition-colors duration-200"
             style={{ fontFamily: "var(--font-sans)" }}
