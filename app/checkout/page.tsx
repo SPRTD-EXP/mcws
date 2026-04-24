@@ -374,14 +374,8 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-dvh bg-white">
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center px-6 py-5 bg-white/95 backdrop-blur-sm border-b border-[#f0f0f0]">
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-6 py-5 bg-white/95 backdrop-blur-sm border-b border-[#f0f0f0]">
         <Logo size="sm" />
-        <span
-          className="ml-6 text-[10px] tracking-[0.3em] uppercase text-[#6b6b6b]"
-          style={{ fontFamily: "var(--font-sans)" }}
-        >
-          Checkout
-        </span>
       </header>
 
       <main className="pt-24 pb-16 px-6 max-w-lg mx-auto">

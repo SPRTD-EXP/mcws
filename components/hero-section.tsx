@@ -34,7 +34,7 @@ export default function HeroSection() {
       {/* Subtle geometric pattern */}
       <div className="absolute inset-0 pattern-overlay opacity-60 pointer-events-none" />
 
-      {/* Radial gradient fade — softens the pattern toward center */}
+      {/* Radial gradient fade */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -60,29 +60,13 @@ export default function HeroSection() {
           MCWS
         </h1>
 
-        <p
-          data-hero
-          className="text-xl md:text-2xl font-light italic text-[#8ecfb5] opacity-0"
-          style={{ fontFamily: "var(--font-display)" }}
-        >
-          Wear your identity.
-        </p>
-
-        <p
-          data-hero
-          className="text-[#6b6b6b] text-sm leading-relaxed max-w-md opacity-0"
-          style={{ fontFamily: "var(--font-sans)" }}
-        >
-          One hoodie. One community. Made to order.
-        </p>
-
-        <div data-hero className="flex items-center gap-5 opacity-0">
+        <div data-hero className="w-full opacity-0">
           <Link
             href="/shop"
-            className="inline-flex items-center gap-3 px-8 py-3.5 text-xs tracking-[0.25em] uppercase bg-white border border-[#8ecfb5] text-[#8ecfb5] hover:bg-[#8ecfb5] hover:text-white transition-colors duration-300"
+            className="flex items-center justify-center w-full py-3 text-xs tracking-[0.25em] uppercase bg-white border border-[#8ecfb5] text-[#8ecfb5] hover:bg-[#8ecfb5] hover:text-white transition-colors duration-300"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            Shop the Collection
+            Wear Your Identity
           </Link>
         </div>
       </div>

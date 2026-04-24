@@ -21,16 +21,21 @@ interface Product {
 
 interface ProductClientProps {
   product: Product | null;
+  fallbackStripePriceId?: string;
 }
 
+const SUPABASE_URL = "https://rodxyfopdfwtaxrrirsg.supabase.co";
+const STORAGE_BASE = `${SUPABASE_URL}/storage/v1/object/public/products/hoodie`;
+
 const FALLBACK_IMAGES = [
-  "/placeholder-hoodie-1.jpg",
-  "/placeholder-hoodie-2.jpg",
-  "/placeholder-hoodie-3.jpg",
+  `${STORAGE_BASE}/1.JPG`,
+  `${STORAGE_BASE}/2.JPG`,
+  `${STORAGE_BASE}/3.jpg`,
+  `${STORAGE_BASE}/4.jpg`,
 ];
 
 const FALLBACK_PRODUCT: Product = {
-  id: "placeholder",
+  id: "775f6f07-2531-4fff-9997-0dc0b578cc4c",
   name: "MCWS Hoodie",
   description:
     "A premium heavyweight hoodie representing the Muslim Community of the Western Suburbs of Detroit. Embroidered MCWS logo. Made to order.",
@@ -40,9 +45,10 @@ const FALLBACK_PRODUCT: Product = {
   images: FALLBACK_IMAGES,
 };
 
-export default function ProductClient({ product }: ProductClientProps) {
+export default function ProductClient({ product, fallbackStripePriceId = "" }: ProductClientProps) {
   const p = product ?? FALLBACK_PRODUCT;
   const images = p.images.length > 0 ? p.images : FALLBACK_IMAGES;
+  const stripePriceId = p.stripe_price_id ?? fallbackStripePriceId;
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -85,7 +91,7 @@ export default function ProductClient({ product }: ProductClientProps) {
       productId: p.id,
       name: p.name,
       price_cents: p.price_cents,
-      stripePriceId: p.stripe_price_id ?? "",
+      stripePriceId,
       size: selectedSize,
       quantity,
       image: images[0],
@@ -99,16 +105,17 @@ export default function ProductClient({ product }: ProductClientProps) {
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col lg:flex-row gap-16 px-6 py-16 md:px-12 max-w-7xl mx-auto w-full"
+      className="flex flex-col lg:flex-row lg:items-stretch gap-16 px-6 py-16 md:px-12 max-w-7xl mx-auto w-full"
     >
       {/* Image Gallery */}
-      <div data-product className="flex-1 flex flex-col gap-4 opacity-0">
-        <div className="relative aspect-[4/5] bg-[#f5f5f5] overflow-hidden">
+      <div data-product className="flex-1 flex flex-col gap-4 opacity-0 lg:self-stretch">
+        <div className="relative flex-1 min-h-[400px] bg-[#f5f5f5] overflow-hidden">
           {images[selectedImage] && !images[selectedImage].startsWith("/placeholder") ? (
             <Image
               src={images[selectedImage]}
               alt={`${p.name} — view ${selectedImage + 1}`}
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
               priority={selectedImage === 0}
             />
@@ -125,7 +132,7 @@ export default function ProductClient({ product }: ProductClientProps) {
         </div>
 
         {images.length > 1 && (
-          <div className="flex gap-3">
+          <div className="flex gap-3 justify-center">
             {images.map((img, i) => (
               <button
                 key={i}

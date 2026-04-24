@@ -14,15 +14,9 @@ export default function AboutPage() {
       <Nav />
       <main className="flex flex-col flex-1 pt-28 pb-16 px-6 md:px-12">
         {/* Header */}
-        <div className="max-w-3xl mx-auto w-full mb-20">
-          <p
-            className="text-[#999] text-[10px] tracking-[0.4em] uppercase mb-6"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            Who We Are
-          </p>
+        <div className="max-w-3xl mx-auto w-full mb-20 text-center">
           <h1
-            className="text-5xl md:text-7xl font-light leading-tight text-white"
+            className="text-5xl md:text-7xl font-light leading-tight text-[#0a0a0a]"
             style={{ fontFamily: "var(--font-display)" }}
           >
             Muslim Community
@@ -31,8 +25,8 @@ export default function AboutPage() {
           </h1>
         </div>
 
-        {/* Pattern banner */}
-        <div className="w-full h-px bg-[#333] mb-20" />
+        {/* Divider */}
+        <div className="w-full h-px bg-[#e5e7eb] mb-20" />
 
         {/* Story */}
         <div className="max-w-2xl mx-auto w-full space-y-20">
@@ -45,13 +39,13 @@ export default function AboutPage() {
                 Our Community
               </p>
               <h2
-                className="text-3xl font-light leading-snug text-white mb-5"
+                className="text-3xl font-light leading-snug text-[#0a0a0a] mb-5"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Rooted in faith. Present in service.
               </h2>
               <p
-                className="text-[#999] text-sm leading-7"
+                className="text-[#6b6b6b] text-sm leading-7"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 MCWS has served the Muslim community across the western suburbs
@@ -68,13 +62,13 @@ export default function AboutPage() {
                 Our Mission
               </p>
               <h2
-                className="text-3xl font-light leading-snug text-white mb-5"
+                className="text-3xl font-light leading-snug text-[#0a0a0a] mb-5"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Belonging. Dignity. Purpose.
               </h2>
               <p
-                className="text-[#999] text-sm leading-7"
+                className="text-[#6b6b6b] text-sm leading-7"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 We are a community that believes in the dignity of every
@@ -88,7 +82,7 @@ export default function AboutPage() {
           <GeometricDivider />
 
           {/* Merch section */}
-          <div className="relative overflow-hidden bg-[#111] p-10 md:p-14 pattern-overlay">
+          <div className="relative overflow-hidden bg-[#f5f5f5] p-10 md:p-14">
             <div className="relative z-10">
               <p
                 className="text-[10px] tracking-[0.3em] uppercase text-[#8ecfb5] mb-5"
@@ -97,13 +91,13 @@ export default function AboutPage() {
                 The Merch
               </p>
               <h2
-                className="text-4xl md:text-5xl font-light italic leading-tight text-white mb-7"
+                className="text-4xl md:text-5xl font-light italic leading-tight text-[#0a0a0a] mb-7"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 &ldquo;Wear your identity.&rdquo;
               </h2>
               <p
-                className="text-[#999] text-sm leading-7 max-w-lg"
+                className="text-[#6b6b6b] text-sm leading-7 max-w-lg"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 This hoodie was designed to be worn with pride — in the masjid,
@@ -128,13 +122,13 @@ export default function AboutPage() {
           {/* Full logo + tagline */}
           <div className="text-center py-8">
             <p
-              className="text-[#555] text-[10px] tracking-[0.3em] uppercase mb-4"
+              className="text-[#6b6b6b] text-[10px] tracking-[0.3em] uppercase mb-4"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Muslim Community of the Western Suburbs of Detroit
             </p>
             <p
-              className="text-6xl md:text-7xl font-light tracking-[0.2em] text-white"
+              className="text-6xl md:text-7xl font-light tracking-[0.2em] text-[#0a0a0a]"
               style={{ fontFamily: "var(--font-display)" }}
             >
               MCWS
