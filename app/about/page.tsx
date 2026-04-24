@@ -114,7 +114,7 @@ export default function AboutPage() {
               <div className="mt-8">
                 <a
                   href="/shop"
-                  className="inline-flex items-center gap-3 px-8 py-3.5 text-xs tracking-[0.25em] uppercase bg-[#8ecfb5] text-black hover:bg-white transition-colors duration-300"
+                  className="inline-flex items-center gap-3 px-8 py-3.5 text-xs tracking-[0.25em] uppercase bg-white border border-[#8ecfb5] text-[#8ecfb5] hover:bg-[#8ecfb5] hover:text-white transition-colors duration-300"
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
                   Shop the Collection

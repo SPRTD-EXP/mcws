@@ -20,51 +20,55 @@ export async function POST(req: NextRequest) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
   } catch {
-    return new Response("Webhook signature verification failed", {
-      status: 400,
-    });
+    return new Response("Webhook signature verification failed", { status: 400 });
   }
 
-  if (event.type !== "checkout.session.completed") {
-    return new Response("OK", { status: 200 });
+  if (event.type === "payment_intent.succeeded") {
+    await handlePaymentIntentSucceeded(event.data.object as Stripe.PaymentIntent);
   }
 
-  const session = event.data.object as Stripe.Checkout.Session;
-  const meta = session.metadata ?? {};
+  return new Response("OK", { status: 200 });
+}
 
-  const productId = meta.product_id;
-  const size = meta.size;
-  const fulfillmentMethod = meta.fulfillment_method as "shipping" | "pickup";
+async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent) {
+  const meta = pi.metadata ?? {};
+  const items = meta.items ? JSON.parse(meta.items) : [];
 
-  if (!productId || !size || !fulfillmentMethod) {
-    console.error("Webhook: missing metadata", meta);
-    return new Response("Missing metadata", { status: 400 });
+  if (!items.length) {
+    console.error("Webhook: no items in metadata", meta);
+    return;
   }
 
-  const shippingAddress =
-    session.collected_information?.shipping_details?.address ?? null;
+  const shipping = pi.shipping;
+  const fulfillmentMethod = shipping?.address ? "shipping" : "pickup";
+  const customerName = shipping?.name ?? "Customer";
 
-  const customerDetails = session.customer_details;
-  const customerName = customerDetails?.name ?? "Customer";
-  const customerEmail = customerDetails?.email ?? "";
+  const shippingAddress = shipping?.address
+    ? {
+        line1: shipping.address.line1,
+        line2: shipping.address.line2,
+        city: shipping.address.city,
+        state: shipping.address.state,
+        postal_code: shipping.address.postal_code,
+        country: shipping.address.country,
+      }
+    : null;
 
   const supabase = createServiceSupabaseClient();
 
   const { data: order, error } = await supabase
     .from("orders")
     .insert({
-      product_id: productId,
-      size,
-      quantity: 1,
+      items,
+      product_id: items[0]?.productId ?? null,
+      size: items[0]?.size ?? null,
+      quantity: items.reduce((sum: number, i: { quantity: number }) => sum + i.quantity, 0),
       customer_name: customerName,
-      customer_email: customerEmail,
+      customer_email: pi.receipt_email ?? "",
       fulfillment_method: fulfillmentMethod,
       shipping_address: shippingAddress,
-      stripe_session_id: session.id,
-      stripe_payment_intent:
-        typeof session.payment_intent === "string"
-          ? session.payment_intent
-          : null,
+      stripe_session_id: pi.id,
+      stripe_payment_intent: pi.id,
       payment_status: "paid",
       fulfillment_status: "pending",
     })
@@ -73,22 +77,19 @@ export async function POST(req: NextRequest) {
 
   if (error) {
     console.error("Webhook: failed to insert order", error);
-    return new Response("Database error", { status: 500 });
+    return;
   }
 
   try {
     await notifyManufacturer({
       orderId: order.id,
       customerName,
-      customerEmail,
-      size,
+      customerEmail: pi.receipt_email ?? "",
+      items,
       fulfillmentMethod,
       shippingAddress,
     });
-  } catch (notifyError) {
-    // Log but don't fail — order is already saved
-    console.error("Webhook: notification failed", notifyError);
+  } catch (err) {
+    console.error("Webhook: notification failed", err);
   }
-
-  return new Response("OK", { status: 200 });
 }

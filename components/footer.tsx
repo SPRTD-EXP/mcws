@@ -7,11 +7,11 @@ const INSTAGRAM_URL = `https://instagram.com/${INSTAGRAM_HANDLE}`;
 
 export default function Footer() {
   return (
-    <footer className="mt-auto px-6 py-12 md:px-12">
+    <footer className="mt-auto px-6 py-12 md:px-12 border-t border-[#e5e7eb]">
       <GeometricDivider className="mb-10" />
       <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <span
-          className="text-xs tracking-[0.25em] uppercase text-[#999]"
+          className="text-xs tracking-[0.25em] uppercase text-[#6b6b6b]"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Muslim Community of the Western Suburbs of Detroit
@@ -19,14 +19,14 @@ export default function Footer() {
         <nav className="flex items-center gap-6">
           <Link
             href="/contact"
-            className="text-xs tracking-[0.2em] uppercase text-[#999] hover:text-white transition-colors duration-200"
+            className="text-xs tracking-[0.2em] uppercase text-[#6b6b6b] hover:text-[#0a0a0a] transition-colors duration-200"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Contact
           </Link>
           <Link
             href="/policies"
-            className="text-xs tracking-[0.2em] uppercase text-[#999] hover:text-white transition-colors duration-200"
+            className="text-xs tracking-[0.2em] uppercase text-[#6b6b6b] hover:text-[#0a0a0a] transition-colors duration-200"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Policies
@@ -36,7 +36,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="MCWS on Instagram"
-            className="text-[#999] hover:text-white transition-colors duration-200"
+            className="text-[#6b6b6b] hover:text-[#0a0a0a] transition-colors duration-200"
           >
             <svg
               width="16"

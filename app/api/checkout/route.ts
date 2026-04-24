@@ -1,64 +1,65 @@
 import { NextRequest } from "next/server";
 import { getStripe } from "@/lib/stripe";
-import { createServerSupabaseClient } from "@/lib/supabase";
+
+interface CartItem {
+  productId: string;
+  name: string;
+  price_cents: number;
+  stripePriceId: string;
+  size: string;
+  quantity: number;
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { productId, size, fulfillmentMethod } = body as {
-    productId: string;
-    size: string;
-    fulfillmentMethod: "shipping" | "pickup";
-  };
+  const { items } = body as { items: CartItem[] };
 
-  if (!productId || !size || !fulfillmentMethod) {
-    return Response.json({ error: "Missing required fields." }, { status: 400 });
+  if (!items || items.length === 0) {
+    return Response.json({ error: "Cart is empty." }, { status: 400 });
   }
 
-  // Fetch product from Supabase to get authoritative price
-  const supabase = createServerSupabaseClient();
-  const { data: product, error } = await supabase
-    .from("products")
-    .select("id, name, price_cents, is_active")
-    .eq("id", productId)
-    .eq("is_active", true)
-    .single();
+  const stripe = getStripe();
+  let totalCents = 0;
+  const validatedItems: CartItem[] = [];
 
-  if (error || !product) {
-    return Response.json({ error: "Product not found." }, { status: 404 });
+  for (const item of items) {
+    if (!item.stripePriceId) {
+      return Response.json(
+        { error: "Product is not linked to a Stripe price. Please set NEXT_PUBLIC_STRIPE_PRICE_ID." },
+        { status: 400 }
+      );
+    }
+
+    // Fetch authoritative price from Stripe
+    const price = await stripe.prices.retrieve(item.stripePriceId);
+
+    if (!price.active || price.unit_amount === null) {
+      return Response.json(
+        { error: `Stripe price ${item.stripePriceId} is inactive or has no amount.` },
+        { status: 400 }
+      );
+    }
+
+    const validItem: CartItem = {
+      productId: item.productId,
+      name: item.name,
+      price_cents: price.unit_amount,
+      stripePriceId: item.stripePriceId,
+      size: item.size,
+      quantity: item.quantity,
+    };
+    validatedItems.push(validItem);
+    totalCents += price.unit_amount * item.quantity;
   }
 
-  const baseUrl = req.nextUrl.origin;
-
-  const session = await getStripe().checkout.sessions.create({
-    mode: "payment",
-    line_items: [
-      {
-        price_data: {
-          currency: "usd",
-          unit_amount: product.price_cents,
-          product_data: {
-            name: `${product.name} — Size ${size}`,
-            description: "Muslim Community of the Western Suburbs of Detroit",
-          },
-        },
-        quantity: 1,
-      },
-    ],
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: totalCents,
+    currency: "usd",
+    automatic_payment_methods: { enabled: true },
     metadata: {
-      product_id: product.id,
-      size,
-      fulfillment_method: fulfillmentMethod,
+      items: JSON.stringify(validatedItems),
     },
-    ...(fulfillmentMethod === "shipping"
-      ? {
-          shipping_address_collection: {
-            allowed_countries: ["US"],
-          },
-        }
-      : {}),
-    success_url: `${baseUrl}/order/{CHECKOUT_SESSION_ID}`,
-    cancel_url: `${baseUrl}/shop`,
   });
 
-  return Response.json({ url: session.url });
+  return Response.json({ clientSecret: paymentIntent.client_secret });
 }

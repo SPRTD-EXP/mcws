@@ -16,7 +16,7 @@ const sizeClasses = {
 export default function Logo({ graphic, size = "md", href = "/" }: LogoProps) {
   const content = graphic ?? (
     <span
-      className={`font-display font-light uppercase text-white ${sizeClasses[size]}`}
+      className={`font-display font-light uppercase text-[#0a0a0a] ${sizeClasses[size]}`}
       style={{ fontFamily: "var(--font-display)" }}
     >
       MCWS

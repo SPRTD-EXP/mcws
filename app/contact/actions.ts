@@ -3,7 +3,7 @@
 import { Resend } from "resend";
 
 // ▼ CONTACT — paste the destination email address here
-const CONTACT_EMAIL = "detwrks@gmail.com";
+const CONTACT_EMAIL = "admin@sprtd.co";
 
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY!);

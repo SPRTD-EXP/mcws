@@ -39,14 +39,14 @@ export default function HeroSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 0%, #000 80%)",
+            "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 0%, #fff 80%)",
         }}
       />
 
       <div className="relative z-10 flex flex-col items-center gap-7 max-w-3xl">
         <p
           data-hero
-          className="text-[#999] text-[10px] tracking-[0.4em] uppercase opacity-0"
+          className="text-[#6b6b6b] text-[10px] tracking-[0.4em] uppercase opacity-0"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Muslim Community of the Western Suburbs · Detroit
@@ -54,7 +54,7 @@ export default function HeroSection() {
 
         <h1
           data-hero
-          className="text-[clamp(4rem,14vw,10rem)] font-light leading-none tracking-[0.15em] uppercase text-white opacity-0"
+          className="text-[clamp(4rem,14vw,10rem)] font-light leading-none tracking-[0.15em] uppercase text-[#0a0a0a] opacity-0"
           style={{ fontFamily: "var(--font-display)" }}
         >
           MCWS
@@ -70,7 +70,7 @@ export default function HeroSection() {
 
         <p
           data-hero
-          className="text-[#999] text-sm leading-relaxed max-w-md opacity-0"
+          className="text-[#6b6b6b] text-sm leading-relaxed max-w-md opacity-0"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           One hoodie. One community. Made to order.
@@ -79,7 +79,7 @@ export default function HeroSection() {
         <div data-hero className="flex items-center gap-5 opacity-0">
           <Link
             href="/shop"
-            className="inline-flex items-center gap-3 px-8 py-3.5 text-xs tracking-[0.25em] uppercase bg-[#8ecfb5] text-black hover:bg-white transition-colors duration-300"
+            className="inline-flex items-center gap-3 px-8 py-3.5 text-xs tracking-[0.25em] uppercase bg-white border border-[#8ecfb5] text-[#8ecfb5] hover:bg-[#8ecfb5] hover:text-white transition-colors duration-300"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Shop the Collection
@@ -93,12 +93,12 @@ export default function HeroSection() {
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0"
       >
         <span
-          className="text-[9px] tracking-[0.3em] uppercase text-[#555]"
+          className="text-[9px] tracking-[0.3em] uppercase text-[#888]"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Scroll
         </span>
-        <div className="w-px h-10 bg-gradient-to-b from-[#555] to-transparent" />
+        <div className="w-px h-10 bg-gradient-to-b from-[#888] to-transparent" />
       </div>
     </section>
   );
