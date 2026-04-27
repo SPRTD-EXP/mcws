@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/cart-context";
 import CartDrawer from "@/components/cart-drawer";
@@ -12,17 +12,12 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "MCWS — Muslim Community of the Western Suburbs",
   description:
     "Represent your community. Official merch from the Muslim Community of the Western Suburbs of Detroit.",
+  icons: { icon: "/logo.svg" },
   openGraph: {
     title: "MCWS Merch",
     description: "Official merch from the Muslim Community of the Western Suburbs of Detroit.",
@@ -36,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
+    <html lang="en" className={cormorant.variable}>
       <body className="min-h-dvh flex flex-col antialiased"><CartProvider>
           <CartDrawer />
           {children}

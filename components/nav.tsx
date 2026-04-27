@@ -15,7 +15,7 @@ export default function Nav() {
   const { itemCount, openCart } = useCart();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-5 md:px-12 bg-white/95 backdrop-blur-sm border-b border-[#f0f0f0]">
+    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-5 md:px-12 bg-gradient-to-b from-black/30 to-transparent border-none">
       <Logo size="sm" />
       <div className="flex items-center gap-8">
         <nav className="flex items-center gap-8">
@@ -23,11 +23,7 @@ export default function Nav() {
             <Link
               key={href}
               href={href}
-              className={`text-xs tracking-[0.2em] uppercase transition-colors duration-200 ${
-                pathname === href
-                  ? "text-[#0a0a0a]"
-                  : "text-[#6b6b6b] hover:text-[#0a0a0a]"
-              }`}
+              className="text-xs tracking-[0.2em] uppercase transition-colors duration-200 text-[#8ecfb5] hover:text-white"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               {label}
@@ -37,7 +33,7 @@ export default function Nav() {
         <button
           onClick={openCart}
           aria-label="Open cart"
-          className="relative text-xs tracking-[0.2em] uppercase text-[#6b6b6b] hover:text-[#0a0a0a] transition-colors duration-200"
+          className="relative text-xs tracking-[0.2em] uppercase text-[#8ecfb5] hover:text-white transition-colors duration-200"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Cart

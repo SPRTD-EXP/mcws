@@ -6,6 +6,11 @@ import gsap from "gsap";
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.playbackRate = 0.75;
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -31,30 +36,33 @@ export default function HeroSection() {
       ref={containerRef}
       className="relative flex flex-col items-center justify-center min-h-dvh px-6 text-center overflow-hidden"
     >
-      {/* Subtle geometric pattern */}
-      <div className="absolute inset-0 pattern-overlay opacity-60 pointer-events-none" />
-
-      {/* Radial gradient fade */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 60% at 50% 50%, transparent 0%, #fff 80%)",
-        }}
+      {/* Video background */}
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+        src="/hero.mp4"
       />
 
-      <div className="relative z-10 flex flex-col items-center gap-7 max-w-3xl">
-        <p
-          data-hero
-          className="text-[#6b6b6b] text-[10px] tracking-[0.4em] uppercase opacity-0"
-          style={{ fontFamily: "var(--font-sans)" }}
-        >
-          Muslim Community of the Western Suburbs · Detroit
-        </p>
+      {/* Dark overlay for legibility */}
+      <div className="absolute inset-0 bg-black/50 pointer-events-none" />
 
+      {/* Label pinned just below the navbar */}
+      <p
+        data-hero
+        className="absolute top-[72px] left-0 right-0 z-10 text-center text-[#8ecfb5] text-[10px] tracking-[0.4em] uppercase opacity-0 py-3"
+        style={{ fontFamily: "var(--font-sans)" }}
+      >
+        Muslim Community of the Western Suburbs · Detroit
+      </p>
+
+      <div className="relative z-10 flex flex-col items-center gap-7 max-w-3xl">
         <h1
           data-hero
-          className="text-[clamp(4rem,14vw,10rem)] font-light leading-none tracking-[0.15em] uppercase text-[#0a0a0a] opacity-0"
+          className="text-[clamp(4rem,14vw,10rem)] font-light leading-none tracking-[0.15em] uppercase text-white opacity-0"
           style={{ fontFamily: "var(--font-display)" }}
         >
           MCWS
@@ -63,7 +71,7 @@ export default function HeroSection() {
         <div data-hero className="w-full opacity-0">
           <Link
             href="/shop"
-            className="flex items-center justify-center w-full py-3 text-xs tracking-[0.25em] uppercase bg-white border border-[#8ecfb5] text-[#8ecfb5] hover:bg-[#8ecfb5] hover:text-white transition-colors duration-300"
+            className="flex items-center justify-center w-full py-3 text-xs tracking-[0.25em] uppercase border border-white text-white hover:border-[#8ecfb5] hover:text-[#8ecfb5] transition-colors duration-300"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Wear Your Identity
@@ -77,12 +85,12 @@ export default function HeroSection() {
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0"
       >
         <span
-          className="text-[9px] tracking-[0.3em] uppercase text-[#888]"
+          className="text-[9px] tracking-[0.3em] uppercase text-[#8ecfb5]"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Scroll
         </span>
-        <div className="w-px h-10 bg-gradient-to-b from-[#888] to-transparent" />
+        <div className="w-px h-10 bg-gradient-to-b from-[#8ecfb5] to-transparent" />
       </div>
     </section>
   );
