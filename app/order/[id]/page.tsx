@@ -47,7 +47,7 @@ export default async function OrderConfirmationPage({ params }: PageProps) {
           {/* Header */}
           <div className="mb-12">
             <p
-              className="text-[#8ecfb5] text-[10px] tracking-[0.4em] uppercase mb-4"
+              className="text-white/60 text-[10px] tracking-[0.4em] uppercase mb-4"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Order Confirmed
@@ -83,7 +83,7 @@ export default async function OrderConfirmationPage({ params }: PageProps) {
           {isShipping ? (
             <div>
               <p
-                className="text-[10px] tracking-[0.3em] uppercase text-[#8ecfb5] mb-5"
+                className="text-[10px] tracking-[0.3em] uppercase text-white/60 mb-5"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 Shipping Details
@@ -114,7 +114,7 @@ export default async function OrderConfirmationPage({ params }: PageProps) {
                       href={order.tracking_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-[#8ecfb5] hover:text-white transition-colors underline underline-offset-4"
+                      className="text-sm text-white hover:text-white/60 transition-colors underline underline-offset-4"
                       style={{ fontFamily: "var(--font-sans)" }}
                     >
                       {order.tracking_number}
@@ -141,7 +141,7 @@ export default async function OrderConfirmationPage({ params }: PageProps) {
           ) : (
             <div>
               <p
-                className="text-[10px] tracking-[0.3em] uppercase text-[#8ecfb5] mb-5"
+                className="text-[10px] tracking-[0.3em] uppercase text-white/60 mb-5"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 Pickup Information
@@ -217,7 +217,7 @@ function Row({
         {label}
       </span>
       <span
-        className={`text-sm ${accent ? "text-[#8ecfb5]" : "text-[#999]"}`}
+        className={`text-sm ${accent ? "text-white" : "text-[#999]"}`}
         style={{ fontFamily: "var(--font-sans)" }}
       >
         {value}

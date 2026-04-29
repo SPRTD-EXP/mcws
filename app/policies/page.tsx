@@ -30,7 +30,7 @@ export default function PoliciesPage() {
             {/* Shipping */}
             <section>
               <h2
-                className="text-2xl font-light text-[#8ecfb5] mb-5 text-center"
+                className="text-2xl font-light text-white mb-5 text-center"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Shipping Policy
@@ -65,7 +65,7 @@ export default function PoliciesPage() {
             {/* Returns */}
             <section>
               <h2
-                className="text-2xl font-light text-[#8ecfb5] mb-5 text-center"
+                className="text-2xl font-light text-white mb-5 text-center"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Return & Refund Policy
@@ -81,12 +81,12 @@ export default function PoliciesPage() {
                 </p>
                 <p>
                   If your order arrives with a defect or error on our part,
-                  please contact us within <strong className="text-white">7 days</strong> of delivery at{" "}
+                  please contact us within <strong className="text-white">7 days</strong> of delivery via our{" "}
                   <a
-                    href="mailto:info@mcws.org"
-                    className="text-[#8ecfb5] hover:text-white transition-colors"
+                    href="/contact"
+                    className="text-white hover:text-white/60 transition-colors"
                   >
-                    info@mcws.org
+                    contact page
                   </a>{" "}
                   with a photo of the issue and your order number. We will make
                   it right.
@@ -103,7 +103,7 @@ export default function PoliciesPage() {
             {/* Privacy */}
             <section>
               <h2
-                className="text-2xl font-light text-[#8ecfb5] mb-5 text-center"
+                className="text-2xl font-light text-white mb-5 text-center"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Privacy Policy
@@ -128,12 +128,12 @@ export default function PoliciesPage() {
                   third parties for marketing purposes.
                 </p>
                 <p>
-                  For any privacy-related questions, contact us at{" "}
+                  For any privacy-related questions, reach us through our{" "}
                   <a
-                    href="mailto:info@mcws.org"
-                    className="text-[#8ecfb5] hover:text-white transition-colors"
+                    href="/contact"
+                    className="text-white hover:text-white/60 transition-colors"
                   >
-                    info@mcws.org
+                    contact page
                   </a>
                   .
                 </p>

@@ -53,44 +53,33 @@ export default function HeroSection() {
       {/* Label pinned just below the navbar */}
       <p
         data-hero
-        className="absolute top-[72px] left-0 right-0 z-10 text-center text-[#8ecfb5] text-[10px] tracking-[0.4em] uppercase opacity-0 py-3"
+        className="absolute top-[72px] left-0 right-0 z-10 text-center text-white text-[10px] tracking-[0.4em] uppercase opacity-0 py-3"
         style={{ fontFamily: "var(--font-sans)" }}
       >
         Muslim Community of the Western Suburbs · Detroit
       </p>
 
-      <div className="relative z-10 flex flex-col items-center gap-7 max-w-3xl">
-        <h1
-          data-hero
-          className="text-[clamp(4rem,14vw,10rem)] font-light leading-none tracking-[0.15em] uppercase text-white opacity-0"
-          style={{ fontFamily: "var(--font-display)" }}
-        >
-          MCWS
-        </h1>
-
-        <div data-hero className="w-full opacity-0">
-          <Link
-            href="/shop"
-            className="flex items-center justify-center w-full py-3 text-xs tracking-[0.25em] uppercase border border-white text-white hover:border-[#8ecfb5] hover:text-[#8ecfb5] transition-colors duration-300"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            Wear Your Identity
-          </Link>
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
+      {/* Button + scroll indicator pinned to bottom */}
       <div
-        data-hero
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-6"
       >
-        <span
-          className="text-[9px] tracking-[0.3em] uppercase text-[#8ecfb5]"
+        <Link
+          data-hero
+          href="/shop"
+          className="opacity-0 px-12 py-3 text-xs tracking-[0.25em] uppercase border border-white text-white hover:border-white/60 hover:text-white/60 transition-colors duration-300"
           style={{ fontFamily: "var(--font-sans)" }}
         >
-          Scroll
-        </span>
-        <div className="w-px h-10 bg-gradient-to-b from-[#8ecfb5] to-transparent" />
+          Shop Now
+        </Link>
+        <div data-hero className="flex flex-col items-center gap-2 opacity-0">
+          <span
+            className="text-[9px] tracking-[0.3em] uppercase text-white"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            Scroll
+          </span>
+          <div className="w-px h-10 bg-gradient-to-b from-white to-transparent" />
+        </div>
       </div>
     </section>
   );

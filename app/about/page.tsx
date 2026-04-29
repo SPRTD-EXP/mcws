@@ -14,7 +14,7 @@ export default function AboutPage() {
       <main className="flex flex-col flex-1 pt-28 pb-16 px-6 md:px-12">
         <div className="max-w-2xl mx-auto w-full">
           <p
-            className="text-[#8ecfb5] text-[10px] tracking-[0.4em] uppercase mb-6"
+            className="text-white text-[10px] tracking-[0.4em] uppercase mb-6"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Our Story
@@ -29,7 +29,7 @@ export default function AboutPage() {
           <div className="space-y-16">
             <section>
               <h2
-                className="text-2xl font-light text-[#8ecfb5] mb-5"
+                className="text-2xl font-light text-white mb-5"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Who We Are
@@ -51,7 +51,7 @@ export default function AboutPage() {
 
             <section>
               <h2
-                className="text-2xl font-light text-[#8ecfb5] mb-5"
+                className="text-2xl font-light text-white mb-5"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Our Mission
@@ -73,7 +73,7 @@ export default function AboutPage() {
 
             <section>
               <h2
-                className="text-2xl font-light text-[#8ecfb5] mb-5"
+                className="text-2xl font-light text-white mb-5"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 The Hoodie

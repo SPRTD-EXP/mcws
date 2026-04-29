@@ -137,7 +137,7 @@ export default function ProductClient({ product, fallbackStripePriceId = "" }: P
                 onClick={() => setSelectedImage(i)}
                 className={`relative w-16 h-20 bg-[#111] overflow-hidden transition-all duration-200 ${
                   selectedImage === i
-                    ? "ring-1 ring-[#8ecfb5]"
+                    ? "ring-1 ring-white"
                     : "ring-1 ring-white/10 hover:ring-white/30"
                 }`}
                 aria-label={`View image ${i + 1}`}
@@ -162,7 +162,7 @@ export default function ProductClient({ product, fallbackStripePriceId = "" }: P
         <div data-product className="opacity-0">
           <h1
             className="text-5xl md:text-6xl font-light leading-tight text-white mb-4 tracking-widest"
-            style={{ fontFamily: "var(--font-sans)" }}
+            style={{ fontFamily: "var(--font-display)" }}
           >
             {p.name}
           </h1>
@@ -196,7 +196,7 @@ export default function ProductClient({ product, fallbackStripePriceId = "" }: P
           <select
             value={selectedSize ?? ""}
             onChange={(e) => setSelectedSize(e.target.value || null)}
-            className="w-full bg-transparent border border-white text-white text-xs tracking-[0.15em] uppercase px-4 py-3 outline-none focus:border-[#8ecfb5] transition-colors duration-200 appearance-none cursor-pointer"
+            className="w-full bg-transparent border border-white text-white text-xs tracking-[0.15em] uppercase px-4 py-3 outline-none focus:border-white transition-colors duration-200 appearance-none cursor-pointer"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             <option value="" disabled className="bg-black">— Size —</option>
@@ -218,7 +218,7 @@ export default function ProductClient({ product, fallbackStripePriceId = "" }: P
         <div data-product className="opacity-0">
           <button
             onClick={handleAddToCart}
-            className="w-full py-4 border border-white text-white text-xs tracking-[0.25em] uppercase hover:border-[#8ecfb5] hover:text-[#8ecfb5] transition-colors duration-300"
+            className="w-full py-4 border border-white text-white text-xs tracking-[0.25em] uppercase hover:bg-white hover:text-black transition-colors duration-300"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             {added ? "Added to Cart ✓" : "Add to Cart"}

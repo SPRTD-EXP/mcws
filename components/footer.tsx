@@ -11,7 +11,7 @@ export default function Footer() {
       <GeometricDivider className="mb-10" />
       <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <span
-          className="text-xs tracking-[0.25em] uppercase text-[#8ecfb5]"
+          className="text-xs tracking-[0.25em] uppercase text-white"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Muslim Community of the Western Suburbs of Detroit
@@ -19,14 +19,14 @@ export default function Footer() {
         <nav className="flex items-center gap-6">
           <Link
             href="/contact"
-            className="text-xs tracking-[0.2em] uppercase text-[#8ecfb5] hover:text-white transition-colors duration-200"
+            className="text-xs tracking-[0.2em] uppercase text-white hover:text-white transition-colors duration-200"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Contact
           </Link>
           <Link
             href="/policies"
-            className="text-xs tracking-[0.2em] uppercase text-[#8ecfb5] hover:text-white transition-colors duration-200"
+            className="text-xs tracking-[0.2em] uppercase text-white hover:text-white transition-colors duration-200"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Policies
@@ -36,7 +36,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="MCWS on Instagram"
-            className="text-[#8ecfb5] hover:text-white transition-colors duration-200"
+            className="text-white hover:text-white transition-colors duration-200"
           >
             <svg
               width="16"

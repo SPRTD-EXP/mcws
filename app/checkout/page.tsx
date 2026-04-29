@@ -25,13 +25,13 @@ function Field({
   return (
     <div className="flex flex-col gap-1.5">
       <label
-        className="text-[10px] tracking-[0.25em] uppercase text-[#6b6b6b]"
+        className="text-[10px] tracking-[0.25em] uppercase text-white/40"
         style={{ fontFamily: "var(--font-sans)" }}
       >
         {label}
       </label>
       <input
-        className="border border-[#e5e7eb] bg-white px-3 py-2.5 text-sm text-[#0a0a0a] outline-none focus:border-[#8ecfb5] focus:ring-1 focus:ring-[#8ecfb5] transition-colors placeholder:text-[#bbb]"
+        className="border border-white/20 bg-transparent px-3 py-2.5 text-sm text-white outline-none focus:border-white transition-colors placeholder:text-white/20"
         style={{ fontFamily: "var(--font-sans)" }}
         {...props}
       />
@@ -119,23 +119,23 @@ function CheckoutForm({
       {/* Order summary */}
       <div>
         <p
-          className="text-[10px] tracking-[0.3em] uppercase text-[#6b6b6b] mb-4"
+          className="text-[10px] tracking-[0.3em] uppercase text-white/40 mb-4"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Order Summary
         </p>
-        <div className="divide-y divide-[#e5e7eb]">
+        <div className="divide-y divide-white/10">
           {items.map((item, i) => (
             <div key={i} className="flex justify-between py-3 text-sm">
               <span
-                className="text-[#0a0a0a]"
+                className="text-white"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 {item.name} — Size {item.size}
-                <span className="text-[#6b6b6b] ml-1">×{item.quantity}</span>
+                <span className="text-white/40 ml-1">×{item.quantity}</span>
               </span>
               <span
-                className="text-[#0a0a0a]"
+                className="text-white"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 ${((item.price_cents * item.quantity) / 100).toFixed(2)}
@@ -143,9 +143,9 @@ function CheckoutForm({
             </div>
           ))}
         </div>
-        <div className="flex justify-between pt-3 border-t border-[#0a0a0a] text-sm font-medium">
-          <span style={{ fontFamily: "var(--font-sans)" }}>Total</span>
-          <span style={{ fontFamily: "var(--font-sans)" }}>
+        <div className="flex justify-between pt-3 border-t border-white/20 text-sm font-medium">
+          <span className="text-white" style={{ fontFamily: "var(--font-sans)" }}>Total</span>
+          <span className="text-white" style={{ fontFamily: "var(--font-sans)" }}>
             ${(totalCents / 100).toFixed(2)}
           </span>
         </div>
@@ -154,12 +154,12 @@ function CheckoutForm({
       {/* Fulfillment toggle */}
       <div>
         <p
-          className="text-[10px] tracking-[0.3em] uppercase text-[#6b6b6b] mb-4"
+          className="text-[10px] tracking-[0.3em] uppercase text-white/40 mb-4"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Fulfillment
         </p>
-        <div className="flex border border-[#e5e7eb] w-fit">
+        <div className="flex border border-white/20 w-fit">
           {(["shipping", "pickup"] as Fulfillment[]).map((method) => (
             <button
               type="button"
@@ -167,8 +167,8 @@ function CheckoutForm({
               onClick={() => setFulfillment(method)}
               className={`px-5 py-2.5 text-xs tracking-[0.15em] uppercase transition-all duration-200 ${
                 fulfillment === method
-                  ? "bg-[#8ecfb5] text-white"
-                  : "bg-white text-[#8ecfb5] hover:bg-[#8ecfb5] hover:text-white"
+                  ? "bg-white text-black"
+                  : "bg-transparent text-white/50 hover:text-white"
               }`}
               style={{ fontFamily: "var(--font-sans)" }}
             >
@@ -178,7 +178,7 @@ function CheckoutForm({
         </div>
         {fulfillment === "pickup" && (
           <p
-            className="text-[#6b6b6b] text-xs leading-5 mt-3"
+            className="text-white/40 text-xs leading-5 mt-3"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Pick up at the mosque. Address provided after purchase.
@@ -189,7 +189,7 @@ function CheckoutForm({
       {/* Name */}
       <div>
         <p
-          className="text-[10px] tracking-[0.3em] uppercase text-[#6b6b6b] mb-4"
+          className="text-[10px] tracking-[0.3em] uppercase text-white/40 mb-4"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Your Name
@@ -214,7 +214,7 @@ function CheckoutForm({
       {fulfillment === "shipping" && (
         <div>
           <p
-            className="text-[10px] tracking-[0.3em] uppercase text-[#6b6b6b] mb-4"
+            className="text-[10px] tracking-[0.3em] uppercase text-white/40 mb-4"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             Shipping Address
@@ -267,7 +267,7 @@ function CheckoutForm({
       {/* Payment */}
       <div>
         <p
-          className="text-[10px] tracking-[0.3em] uppercase text-[#6b6b6b] mb-4"
+          className="text-[10px] tracking-[0.3em] uppercase text-white/40 mb-4"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Payment
@@ -277,7 +277,7 @@ function CheckoutForm({
 
       {error && (
         <p
-          className="text-red-500 text-xs"
+          className="text-red-400 text-xs"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           {error}
@@ -287,14 +287,14 @@ function CheckoutForm({
       <button
         type="submit"
         disabled={!stripe || loading}
-        className="w-full py-4 bg-white border border-[#8ecfb5] text-[#8ecfb5] text-xs tracking-[0.25em] uppercase hover:bg-[#8ecfb5] hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-4 border border-white text-white text-xs tracking-[0.25em] uppercase hover:bg-white hover:text-black transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         style={{ fontFamily: "var(--font-sans)" }}
       >
         {loading ? "Processing..." : `Pay $${(totalCents / 100).toFixed(2)}`}
       </button>
 
       <p
-        className="text-[#6b6b6b] text-[10px] text-center leading-5"
+        className="text-white/30 text-[10px] text-center leading-5"
         style={{ fontFamily: "var(--font-sans)" }}
       >
         Secure payment via Stripe. Made to order — ships within 2–3 weeks.
@@ -336,9 +336,9 @@ export default function CheckoutPage() {
 
   if (fetchError) {
     return (
-      <div className="min-h-dvh flex items-center justify-center">
+      <div className="min-h-dvh bg-black flex items-center justify-center">
         <p
-          className="text-red-500 text-sm"
+          className="text-red-400 text-sm"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           {fetchError}
@@ -349,9 +349,9 @@ export default function CheckoutPage() {
 
   if (!clientSecret) {
     return (
-      <div className="min-h-dvh flex items-center justify-center">
+      <div className="min-h-dvh bg-black flex items-center justify-center">
         <p
-          className="text-[#6b6b6b] text-sm"
+          className="text-white/40 text-sm"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Loading checkout...
@@ -361,26 +361,28 @@ export default function CheckoutPage() {
   }
 
   const appearance = {
-    theme: "stripe" as const,
+    theme: "night" as const,
     variables: {
-      colorPrimary: "#8ecfb5",
-      colorBackground: "#ffffff",
-      colorText: "#0a0a0a",
-      colorDanger: "#ef4444",
-      fontFamily: "Inter, sans-serif",
+      colorPrimary: "#ffffff",
+      colorBackground: "#000000",
+      colorText: "#ffffff",
+      colorTextSecondary: "rgba(255,255,255,0.5)",
+      colorDanger: "#f87171",
+      fontFamily: "Helvetica Neue, Helvetica, Arial, sans-serif",
       borderRadius: "0px",
+      colorBorder: "rgba(255,255,255,0.2)",
     },
   };
 
   return (
-    <div className="min-h-dvh bg-white">
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-6 py-5 bg-white/95 backdrop-blur-sm border-b border-[#f0f0f0]">
+    <div className="min-h-dvh bg-black">
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center px-6 py-5 bg-black/95 backdrop-blur-sm border-b border-white/10">
         <Logo size="sm" />
       </header>
 
       <main className="pt-24 pb-16 px-6 max-w-lg mx-auto">
         <h1
-          className="text-4xl font-light text-[#0a0a0a] mb-10"
+          className="text-4xl font-light text-white mb-10"
           style={{ fontFamily: "var(--font-display)" }}
         >
           Complete Your Order

@@ -16,7 +16,7 @@ export default function Logo({ size = "md", href = "/" }: LogoProps) {
   const px = sizeMap[size];
   return (
     <Link href={href} className="inline-flex items-center">
-      <Image src="/logo.svg" alt="MCWS" width={px} height={px} priority style={{ filter: "invert(82%) sepia(16%) saturate(740%) hue-rotate(112deg) brightness(96%) contrast(89%)" }} />
+      <Image src="/logo.svg" alt="MCWS" width={px} height={px} priority style={{ filter: "brightness(0) invert(1)" }} />
     </Link>
   );
 }

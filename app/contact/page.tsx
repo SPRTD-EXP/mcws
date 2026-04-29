@@ -29,7 +29,7 @@ export default function ContactPage() {
         <div className="max-w-xl mx-auto w-full">
           <div className="mb-12">
             <p
-              className="text-[#8ecfb5] text-[10px] tracking-[0.4em] uppercase mb-4"
+              className="text-white text-[10px] tracking-[0.4em] uppercase mb-4"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Get in Touch
@@ -53,7 +53,7 @@ export default function ContactPage() {
           {result?.success ? (
             <div className="py-12 text-center">
               <p
-                className="text-[#8ecfb5] text-[10px] tracking-[0.4em] uppercase mb-4"
+                className="text-white text-[10px] tracking-[0.4em] uppercase mb-4"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 Message Sent
@@ -77,7 +77,7 @@ export default function ContactPage() {
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-[10px] tracking-[0.25em] uppercase text-white/40 mb-2"
+                  className="block text-[10px] tracking-[0.25em] uppercase text-white mb-2"
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
                   Name
@@ -88,7 +88,7 @@ export default function ContactPage() {
                   type="text"
                   required
                   autoComplete="name"
-                  className="w-full bg-white/5 border border-white/20 text-white text-sm px-4 py-3 outline-none focus:border-[#8ecfb5] focus:ring-1 focus:ring-[#8ecfb5] transition-colors duration-200 placeholder:text-white/20"
+                  className="w-full bg-white/5 border border-white/20 text-white text-sm px-4 py-3 outline-none focus:border-white focus:ring-1 focus:ring-white/30 transition-colors duration-200 placeholder:text-white/20"
                   style={{ fontFamily: "var(--font-sans)" }}
                   placeholder="Your name"
                   suppressHydrationWarning
@@ -98,7 +98,7 @@ export default function ContactPage() {
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-[10px] tracking-[0.25em] uppercase text-white/40 mb-2"
+                  className="block text-[10px] tracking-[0.25em] uppercase text-white mb-2"
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
                   Email
@@ -109,7 +109,7 @@ export default function ContactPage() {
                   type="email"
                   required
                   autoComplete="email"
-                  className="w-full bg-white/5 border border-white/20 text-white text-sm px-4 py-3 outline-none focus:border-[#8ecfb5] focus:ring-1 focus:ring-[#8ecfb5] transition-colors duration-200 placeholder:text-white/20"
+                  className="w-full bg-white/5 border border-white/20 text-white text-sm px-4 py-3 outline-none focus:border-white focus:ring-1 focus:ring-white/30 transition-colors duration-200 placeholder:text-white/20"
                   style={{ fontFamily: "var(--font-sans)" }}
                   placeholder="you@example.com"
                   suppressHydrationWarning
@@ -119,7 +119,7 @@ export default function ContactPage() {
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-[10px] tracking-[0.25em] uppercase text-white/40 mb-2"
+                  className="block text-[10px] tracking-[0.25em] uppercase text-white mb-2"
                   style={{ fontFamily: "var(--font-sans)" }}
                 >
                   Message
@@ -129,7 +129,7 @@ export default function ContactPage() {
                   name="message"
                   required
                   rows={6}
-                  className="w-full bg-white/5 border border-white/20 text-white text-sm px-4 py-3 outline-none focus:border-[#8ecfb5] focus:ring-1 focus:ring-[#8ecfb5] transition-colors duration-200 placeholder:text-white/20 resize-none"
+                  className="w-full bg-white/5 border border-white/20 text-white text-sm px-4 py-3 outline-none focus:border-white focus:ring-1 focus:ring-white/30 transition-colors duration-200 placeholder:text-white/20 resize-none"
                   style={{ fontFamily: "var(--font-sans)" }}
                   placeholder="How can we help?"
                   suppressHydrationWarning
@@ -148,7 +148,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={isPending}
-                className="w-full px-8 py-3.5 text-xs tracking-[0.25em] uppercase border border-white text-white hover:border-[#8ecfb5] hover:text-[#8ecfb5] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-8 py-3.5 text-xs tracking-[0.25em] uppercase border border-white text-white hover:border-white/60 hover:text-white/60 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 {isPending ? "Sending…" : "Send Message"}

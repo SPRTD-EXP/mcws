@@ -82,7 +82,7 @@ export default function CartDrawer() {
                     <div className="flex flex-col gap-1">
                       <span
                         className="text-sm font-medium text-white leading-tight"
-                        style={{ fontFamily: "var(--font-sans)" }}
+                        style={{ fontFamily: "var(--font-display)" }}
                       >
                         {item.name}
                       </span>
@@ -151,7 +151,7 @@ export default function CartDrawer() {
             </div>
             <button
               onClick={handleCheckout}
-              className="w-full py-3.5 border border-white text-white text-xs tracking-[0.25em] uppercase hover:border-[#8ecfb5] hover:text-[#8ecfb5] transition-colors duration-200"
+              className="w-full py-3.5 border border-white text-white text-xs tracking-[0.25em] uppercase hover:bg-white hover:text-black transition-colors duration-200"
               style={{ fontFamily: "var(--font-sans)" }}
             >
               Checkout

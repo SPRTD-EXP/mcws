@@ -5,7 +5,7 @@
   --color-bg-alt: #f5f5f5;
   --color-text: #0a0a0a;
   --color-muted: #6b6b6b;
-  --color-accent: #8ecfb5;
+  --color-accent: #ffffff;
   --color-border: #e5e7eb;
 
   --font-display: "Cormorant Garamond", serif;
@@ -44,7 +44,7 @@ body {
 }
 
 ::selection {
-  background: #8ecfb5;
+  background: #ffffff;
   color: #000000;
 }
 
@@ -67,5 +67,5 @@ body {
   content: "";
   flex: 1;
   height: 1px;
-  background: #8ecfb5;
+  background: #ffffff;
 }
