@@ -13,6 +13,7 @@ interface CartItem {
 
 interface OrderDetails {
   orderId: string;
+  orderNumber?: number;
   customerName: string;
   customerEmail: string;
   items: CartItem[];
@@ -57,7 +58,7 @@ export async function notifyManufacturer(order: OrderDetails) {
     html: `
       <div style="font-family:sans-serif;max-width:540px;color:#111;">
         <h2 style="font-size:20px;margin-bottom:4px;">New MCWS Order</h2>
-        <p style="color:#666;font-size:13px;">Order ID: ${order.orderId.slice(0, 8).toUpperCase()}</p>
+        <p style="color:#666;font-size:13px;">Order #${order.orderNumber ?? order.orderId.slice(0, 8).toUpperCase()}</p>
         <hr style="margin:16px 0;border:none;border-top:1px solid #eee;">
         <p><strong>Customer:</strong> ${order.customerName}</p>
         <p><strong>Email:</strong> ${order.customerEmail}</p>

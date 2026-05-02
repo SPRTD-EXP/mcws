@@ -12,7 +12,7 @@ export default function AboutPage() {
     <>
       <Nav />
       <main className="flex flex-col flex-1 pt-28 pb-16 px-6 md:px-12">
-        <div className="max-w-2xl mx-auto w-full">
+        <div className="max-w-2xl mx-auto w-full text-center">
           <p
             className="text-white text-[10px] tracking-[0.4em] uppercase mb-6"
             style={{ fontFamily: "var(--font-sans)" }}
@@ -23,7 +23,7 @@ export default function AboutPage() {
             className="text-5xl md:text-6xl font-light leading-tight text-white mb-16"
             style={{ fontFamily: "var(--font-display)" }}
           >
-            Muslim Community of the Western Suburbs
+            The Brand Behind the Muslim Community of the Western Suburbs
           </h1>
 
           <div className="space-y-16">
@@ -90,6 +90,18 @@ export default function AboutPage() {
                 </p>
               </div>
             </section>
+          </div>
+
+          <div className="mt-16">
+            <a
+              href="https://mcws.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full py-4 border border-white text-white text-xs tracking-[0.25em] uppercase hover:bg-white hover:text-black transition-colors duration-200"
+              style={{ fontFamily: "var(--font-sans)" }}
+            >
+              Visit MCWS
+            </a>
           </div>
         </div>
       </main>

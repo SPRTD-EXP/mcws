@@ -12,7 +12,7 @@ export default function PoliciesPage() {
     <>
       <Nav />
       <main className="flex flex-col flex-1 pt-28 pb-16 px-6 md:px-12">
-        <div className="max-w-2xl mx-auto w-full">
+        <div className="max-w-2xl mx-auto w-full text-center">
           <p
             className="text-[#999] text-[10px] tracking-[0.4em] uppercase mb-6"
             style={{ fontFamily: "var(--font-sans)" }}

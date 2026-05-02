@@ -61,5 +61,21 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  return Response.json({ clientSecret: paymentIntent.client_secret });
+  return Response.json({
+    clientSecret: paymentIntent.client_secret,
+    paymentIntentId: paymentIntent.id,
+  });
+}
+
+export async function PATCH(req: NextRequest) {
+  const { paymentIntentId, email, fulfillmentMethod } = await req.json();
+  if (!paymentIntentId) {
+    return Response.json({ error: "Missing paymentIntentId" }, { status: 400 });
+  }
+  const stripe = getStripe();
+  await stripe.paymentIntents.update(paymentIntentId, {
+    receipt_email: email || undefined,
+    metadata: { fulfillment_method: fulfillmentMethod },
+  });
+  return Response.json({ ok: true });
 }

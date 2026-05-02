@@ -10,12 +10,15 @@ export default function Footer() {
     <footer className="mt-auto px-6 py-12 md:px-12 bg-black border-t border-white/10">
       <GeometricDivider className="mb-10" />
       <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <span
-          className="text-xs tracking-[0.25em] uppercase text-white"
+        <a
+          href="https://mcws.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs tracking-[0.25em] uppercase text-white hover:text-white/60 transition-colors duration-200"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Muslim Community of the Western Suburbs of Detroit
-        </span>
+        </a>
         <nav className="flex items-center gap-6">
           <Link
             href="/contact"

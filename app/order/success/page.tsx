@@ -34,7 +34,7 @@ export default async function OrderSuccessPage({
   const supabase = createServerSupabaseClient();
   const { data: order } = await supabase
     .from("orders")
-    .select("id, items, fulfillment_method, shipping_address, customer_name")
+    .select("id, order_number, fulfillment_method, shipping_address, customer_name, order_items(name, size, quantity, unit_price_cents, line_total_cents)")
     .eq("stripe_payment_intent", paymentIntentId)
     .maybeSingle();
 
@@ -44,14 +44,8 @@ export default async function OrderSuccessPage({
         <Logo size="sm" />
       </header>
 
-      <main className="max-w-lg mx-auto px-6 py-16">
+      <main className="max-w-lg mx-auto px-6 py-16 text-center">
         <div className="mb-10">
-          <p
-            className="text-[10px] tracking-[0.3em] uppercase text-white/50 mb-3"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            Order Confirmed
-          </p>
           <h1
             className="text-4xl font-light text-white mb-3"
             style={{ fontFamily: "var(--font-display)" }}
@@ -64,17 +58,17 @@ export default async function OrderSuccessPage({
           >
             Your order has been placed and is being processed. You&apos;ll receive a confirmation email shortly.
           </p>
-          {order?.id && (
+          {order?.order_number && (
             <p
               className="text-white/40 text-xs mt-3"
               style={{ fontFamily: "var(--font-sans)" }}
             >
-              Order #{order.id.slice(0, 8).toUpperCase()}
+              Order #{order.order_number}
             </p>
           )}
         </div>
 
-        {order?.items && Array.isArray(order.items) && order.items.length > 0 && (
+        {order?.order_items && order.order_items.length > 0 && (
           <div className="mb-10">
             <p
               className="text-[10px] tracking-[0.3em] uppercase text-white/40 mb-4"
@@ -83,27 +77,14 @@ export default async function OrderSuccessPage({
               Items Ordered
             </p>
             <div className="divide-y divide-white/10">
-              {(
-                order.items as {
-                  name: string;
-                  size: string;
-                  quantity: number;
-                  price_cents: number;
-                }[]
-              ).map((item, i) => (
+              {order.order_items.map((item, i) => (
                 <div key={i} className="flex justify-between py-3 text-sm">
-                  <span
-                    className="text-white"
-                    style={{ fontFamily: "var(--font-sans)" }}
-                  >
+                  <span className="text-white" style={{ fontFamily: "var(--font-sans)" }}>
                     {item.name} — Size {item.size}
                     <span className="text-white/40 ml-1">×{item.quantity}</span>
                   </span>
-                  <span
-                    className="text-white"
-                    style={{ fontFamily: "var(--font-sans)" }}
-                  >
-                    ${((item.price_cents * item.quantity) / 100).toFixed(2)}
+                  <span className="text-white" style={{ fontFamily: "var(--font-sans)" }}>
+                    ${(item.line_total_cents / 100).toFixed(2)}
                   </span>
                 </div>
               ))}
@@ -147,20 +128,9 @@ export default async function OrderSuccessPage({
           </div>
         )}
 
-        {!order && (
-          <div className="mb-10 p-5 bg-[#111] border border-white/10">
-            <p
-              className="text-sm text-white/50"
-              style={{ fontFamily: "var(--font-sans)" }}
-            >
-              Your order is being processed. Check your email for confirmation details.
-            </p>
-          </div>
-        )}
-
         <Link
           href="/shop"
-          className="text-xs tracking-[0.2em] uppercase text-white/40 hover:text-white transition-colors border-b border-white/10 hover:border-white pb-0.5"
+          className="block w-full py-4 border border-white text-white text-xs tracking-[0.25em] uppercase text-center hover:bg-white hover:text-black transition-colors duration-200"
           style={{ fontFamily: "var(--font-sans)" }}
         >
           Continue Shopping

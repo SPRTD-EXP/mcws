@@ -40,7 +40,7 @@ async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent) {
   }
 
   const shipping = pi.shipping;
-  const fulfillmentMethod = shipping?.address ? "shipping" : "pickup";
+  const fulfillmentMethod = ((meta.fulfillment_method ?? (shipping?.address ? "shipping" : "pickup")) as "shipping" | "pickup");
   const customerName = shipping?.name ?? "Customer";
 
   const shippingAddress = shipping?.address
@@ -56,23 +56,35 @@ async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent) {
 
   const supabase = createServiceSupabaseClient();
 
+  // Idempotency check — skip if this PI already has an order
+  const { data: existing } = await supabase
+    .from("orders")
+    .select("id")
+    .eq("stripe_payment_intent", pi.id)
+    .maybeSingle();
+
+  if (existing) {
+    console.log("Webhook: order already exists for PI", pi.id, "— skipping");
+    return;
+  }
+
   const { data: order, error } = await supabase
     .from("orders")
     .insert({
       items,
       product_id: items[0]?.productId ?? null,
-      size: items[0]?.size ?? null,
       quantity: items.reduce((sum: number, i: { quantity: number }) => sum + i.quantity, 0),
       customer_name: customerName,
-      customer_email: pi.receipt_email ?? "",
+      customer_email: pi.receipt_email ?? meta.email ?? "",
       fulfillment_method: fulfillmentMethod,
       shipping_address: shippingAddress,
+      billing_address: shippingAddress, // same as shipping for now
       stripe_session_id: pi.id,
       stripe_payment_intent: pi.id,
       payment_status: "paid",
       fulfillment_status: "pending",
     })
-    .select("id")
+    .select("id, order_number")
     .single();
 
   if (error) {
@@ -80,9 +92,25 @@ async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent) {
     return;
   }
 
+  const orderItemRows = items.map((item: { productId?: string; stripePriceId?: string; name: string; size?: string; quantity: number; price_cents: number }) => ({
+    order_id: order.id,
+    product_id: item.productId ?? null,
+    stripe_price_id: item.stripePriceId ?? null,
+    name: item.name,
+    size: item.size ?? null,
+    quantity: item.quantity,
+    unit_price_cents: item.price_cents,
+  }));
+
+  const { error: itemsError } = await supabase.from("order_items").insert(orderItemRows);
+  if (itemsError) {
+    console.error("Webhook: failed to insert order_items", itemsError);
+  }
+
   try {
     await notifyManufacturer({
       orderId: order.id,
+      orderNumber: order.order_number,
       customerName,
       customerEmail: pi.receipt_email ?? "",
       items,
