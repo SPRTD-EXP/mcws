@@ -44,7 +44,7 @@ export default function PoliciesPage() {
                   production and fulfillment before your order ships.
                 </p>
                 <p>
-                  We currently ship within the <strong className="text-white">United States</strong> only.
+                  We currently ship within <strong className="text-white">Michigan</strong> only.
                   Shipping costs are calculated at checkout based on your address.
                 </p>
                 <p>

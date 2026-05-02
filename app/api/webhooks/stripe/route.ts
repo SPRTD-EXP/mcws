@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import { createServiceSupabaseClient } from "@/lib/supabase";
 import { notifyManufacturer } from "@/lib/notify";
+import { notifyCustomer } from "@/lib/notify-customer";
 import type Stripe from "stripe";
 
 export async function POST(req: NextRequest) {
@@ -107,17 +108,36 @@ async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent) {
     console.error("Webhook: failed to insert order_items", itemsError);
   }
 
+  const taxCents = parseInt(meta.tax_cents || "0");
+  const customerEmail = pi.receipt_email ?? meta.email ?? "";
+
   try {
     await notifyManufacturer({
       orderId: order.id,
       orderNumber: order.order_number,
       customerName,
-      customerEmail: pi.receipt_email ?? "",
+      customerEmail,
       items,
       fulfillmentMethod,
       shippingAddress,
     });
   } catch (err) {
-    console.error("Webhook: notification failed", err);
+    console.error("Webhook: manufacturer notification failed", err);
+  }
+
+  try {
+    await notifyCustomer({
+      orderNumber: order.order_number,
+      customerName,
+      customerEmail,
+      items,
+      fulfillmentMethod,
+      shippingAddress,
+      subtotalCents: pi.amount - taxCents,
+      taxCents,
+      totalCents: pi.amount,
+    });
+  } catch (err) {
+    console.error("Webhook: customer notification failed", err);
   }
 }
