@@ -10,6 +10,7 @@ create table if not exists products (
   description  text,
   price_cents  int not null,
   sizes        text[] not null default '{"S","M","L","XL"}',
+  stock        jsonb not null default '{"S":0,"M":0,"L":0,"XL":0}',
   images       text[] not null default '{}',
   is_active    boolean not null default true,
   created_at   timestamptz default now()
@@ -36,6 +37,27 @@ create table if not exists orders (
   created_at          timestamptz default now(),
   updated_at          timestamptz default now()
 );
+
+-- Atomically decrement per-size stock (FOR UPDATE prevents overselling)
+create or replace function decrement_stock(p_product_id uuid, p_size text, p_qty integer)
+returns boolean language plpgsql as $$
+declare
+  current_stock integer;
+begin
+  select (stock->>p_size)::integer into current_stock
+  from products where id = p_product_id for update;
+
+  if current_stock is null or current_stock < p_qty then
+    return false;
+  end if;
+
+  update products
+  set stock = jsonb_set(stock, array[p_size], ((current_stock - p_qty)::text)::jsonb)
+  where id = p_product_id;
+
+  return true;
+end;
+$$;
 
 -- Auto-update updated_at on orders
 create or replace function update_updated_at()

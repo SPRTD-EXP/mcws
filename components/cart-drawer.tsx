@@ -46,7 +46,7 @@ export default function CartDrawer() {
             className="text-[10px] tracking-[0.3em] uppercase text-white"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            Your Cart
+            Cart
           </span>
           <button
             onClick={closeCart}
@@ -79,35 +79,20 @@ export default function CartDrawer() {
           ) : (
             <ul className="divide-y divide-white/10">
               {items.map((item) => (
-                <li key={`${item.productId}-${item.size}`} className="py-4 flex flex-col gap-2">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex flex-col gap-1">
-                      <span
-                        className="text-sm font-medium text-white leading-tight"
-                        style={{ fontFamily: "var(--font-display)" }}
-                      >
-                        {item.name}
-                      </span>
-                      <span
-                        className="text-[9px] tracking-[0.2em] uppercase bg-white/10 text-white/50 px-2 py-0.5 w-fit"
-                        style={{ fontFamily: "var(--font-sans)" }}
-                      >
-                        Size {item.size}
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => removeItem(item.productId, item.size)}
-                      aria-label={`Remove ${item.name} size ${item.size}`}
-                      className="text-white/20 hover:text-white transition-colors flex-shrink-0 mt-0.5"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
-                        <line x1="18" y1="6" x2="6" y2="18" />
-                        <line x1="6" y1="6" x2="18" y2="18" />
-                      </svg>
-                    </button>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center border border-white/20">
+                <li key={`${item.productId}-${item.size}`} className="py-4 flex items-center gap-3">
+                  <span
+                    className="text-sm font-medium text-white leading-tight flex-shrink-0"
+                    style={{ fontFamily: "var(--font-display)" }}
+                  >
+                    {item.name}
+                  </span>
+                  <span
+                    className="text-sm font-medium text-white flex-shrink-0"
+                    style={{ fontFamily: "var(--font-sans)" }}
+                  >
+                    {item.size}
+                  </span>
+                  <div className="flex items-center border border-white/20 ml-auto flex-shrink-0">
                       <button
                         onClick={() => updateQty(item.productId, item.size, item.quantity - 1)}
                         className="w-7 h-7 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-colors text-sm"
@@ -129,13 +114,22 @@ export default function CartDrawer() {
                         +
                       </button>
                     </div>
-                    <span
-                      className="text-sm text-white"
-                      style={{ fontFamily: "var(--font-sans)" }}
-                    >
-                      ${((item.price_cents * item.quantity) / 100).toFixed(2)}
-                    </span>
-                  </div>
+                  <span
+                    className="text-sm text-white flex-shrink-0"
+                    style={{ fontFamily: "var(--font-sans)" }}
+                  >
+                    ${((item.price_cents * item.quantity) / 100).toFixed(2)}
+                  </span>
+                  <button
+                    onClick={() => removeItem(item.productId, item.size)}
+                    aria-label={`Remove ${item.name} size ${item.size}`}
+                    className="text-white/20 hover:text-white transition-colors flex-shrink-0"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
                 </li>
               ))}
             </ul>

@@ -45,7 +45,7 @@ export default async function ShopPage() {
   return (
     <>
       <Nav />
-      <main className="flex flex-col flex-1 pt-24">
+      <main className="flex flex-col flex-1 pt-24 pb-16 lg:pb-0">
         <ProductClient product={product} priceCents={priceCents} stripePriceId={stripePriceId} />
       </main>
       <Footer />

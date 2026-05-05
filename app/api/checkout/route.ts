@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { getStripe } from "@/lib/stripe";
+import { createServerSupabaseClient } from "@/lib/supabase";
 
 interface CartItem {
   productId: string;
@@ -50,6 +51,28 @@ export async function POST(req: NextRequest) {
     };
     validatedItems.push(validItem);
     totalCents += price.unit_amount * item.quantity;
+  }
+
+  // Validate stock for each item before charging the customer
+  const supabase = createServerSupabaseClient();
+  const uniqueProductIds = [...new Set(validatedItems.map((i) => i.productId))];
+  for (const productId of uniqueProductIds) {
+    const { data: productRow } = await supabase
+      .from("products")
+      .select("stock")
+      .eq("id", productId)
+      .single();
+
+    const stock = (productRow?.stock ?? {}) as Record<string, number>;
+    for (const item of validatedItems.filter((i) => i.productId === productId)) {
+      const available = stock[item.size] ?? 0;
+      if (available < item.quantity) {
+        return Response.json(
+          { error: `${item.size} is out of stock` },
+          { status: 400 }
+        );
+      }
+    }
   }
 
   const paymentIntent = await stripe.paymentIntents.create({

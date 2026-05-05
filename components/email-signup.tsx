@@ -6,9 +6,16 @@ import LogoScrollBg from "./logo-scroll-bg";
 export default function EmailSignup() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [inputError, setInputError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const trimmed = email.trim();
+    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      setInputError("Please enter a valid email address.");
+      return;
+    }
+    setInputError(null);
     setStatus("loading");
     try {
       const res = await fetch("/api/subscribe", {
@@ -54,7 +61,7 @@ export default function EmailSignup() {
               type="email"
               required
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => { setEmail(e.target.value); setInputError(null); }}
               placeholder="Enter Your Email"
               className="flex-1 bg-transparent border border-white/30 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white transition-colors duration-200"
               style={{ fontFamily: "var(--font-sans)" }}
@@ -70,7 +77,16 @@ export default function EmailSignup() {
           </form>
         )}
 
-        {status === "error" && (
+        {inputError && (
+          <p
+            className="text-red-400 text-xs mt-3"
+            style={{ fontFamily: "var(--font-sans)" }}
+          >
+            {inputError}
+          </p>
+        )}
+
+        {status === "error" && !inputError && (
           <p
             className="text-red-400 text-xs mt-3"
             style={{ fontFamily: "var(--font-sans)" }}

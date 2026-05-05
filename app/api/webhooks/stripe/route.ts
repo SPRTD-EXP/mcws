@@ -108,6 +108,23 @@ async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent) {
     console.error("Webhook: failed to insert order_items", itemsError);
   }
 
+  // Decrement stock for each item atomically
+  for (const item of items as Array<{ productId?: string; size?: string; quantity: number }>) {
+    if (!item.productId || !item.size) continue;
+    const { data: decremented } = await supabase.rpc("decrement_stock", {
+      p_product_id: item.productId,
+      p_size: item.size,
+      p_qty: item.quantity,
+    });
+    if (!decremented) {
+      console.warn(`Webhook: stock already depleted for ${item.size} on order ${order.id}`);
+      await supabase
+        .from("orders")
+        .update({ notes: `Stock depleted for size ${item.size} at fulfillment` })
+        .eq("id", order.id);
+    }
+  }
+
   const taxCents = parseInt(meta.tax_cents || "0");
   const customerEmail = pi.receipt_email ?? meta.email ?? "";
 

@@ -14,6 +14,7 @@ interface Product {
   description: string;
   stripe_price_id: string | null;
   sizes: string[];
+  stock: Record<string, number>;
   images: string[];
 }
 
@@ -62,6 +63,10 @@ export default function ProductClient({ product, priceCents, stripePriceId }: Pr
       setError("Please select a size.");
       return;
     }
+    if ((p.stock[selectedSize] ?? 0) < 1) {
+      setError("That size is out of stock.");
+      return;
+    }
     setError(null);
     addItem({
       productId: p.id,
@@ -80,11 +85,11 @@ export default function ProductClient({ product, priceCents, stripePriceId }: Pr
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col lg:flex-row lg:items-stretch gap-0 px-6 py-16 md:px-12 max-w-7xl mx-auto w-full"
+      className="flex flex-col lg:flex-row lg:items-stretch gap-0 w-full"
     >
       {/* Image Gallery */}
-      <div data-product className="flex-1 flex flex-col gap-4 opacity-0 lg:self-stretch lg:pr-16">
-        <div className="relative flex-1 min-h-[400px] overflow-hidden">
+      <div data-product className="lg:w-1/2 flex flex-col items-center justify-center gap-4 opacity-0 px-12 py-16">
+        <div className="relative w-full max-w-lg min-h-[400px] overflow-hidden">
           {images[selectedImage] && !images[selectedImage].startsWith("/placeholder") ? (
             <Image
               src={images[selectedImage]}
@@ -138,7 +143,8 @@ export default function ProductClient({ product, priceCents, stripePriceId }: Pr
       <div className="hidden lg:block w-px bg-white/10 self-stretch flex-none" />
 
       {/* Product Details */}
-      <div className="flex-1 flex flex-col max-w-md lg:pt-4 lg:pl-16 text-center">
+      <div className="lg:w-1/2 flex flex-col items-center justify-center px-12 py-16 text-center">
+        <div className="w-full max-w-sm">
 
         {/* Name + price + description */}
         <div data-product className="opacity-0 mb-8">
@@ -182,9 +188,14 @@ export default function ProductClient({ product, priceCents, stripePriceId }: Pr
             style={{ fontFamily: "var(--font-sans)" }}
           >
             <option value="" disabled className="bg-black">— Select Size —</option>
-            {p.sizes.map((size) => (
-              <option key={size} value={size} className="bg-black">{size}</option>
-            ))}
+            {p.sizes.map((size) => {
+              const available = p.stock[size] ?? 0;
+              return (
+                <option key={size} value={size} disabled={available === 0} className="bg-black">
+                  {available === 0 ? `${size} — Out of Stock` : size}
+                </option>
+              );
+            })}
           </select>
         </div>
 
@@ -202,15 +213,16 @@ export default function ProductClient({ product, priceCents, stripePriceId }: Pr
             className="text-white text-[10px] text-center mb-4 leading-5"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            Made to order — ships within 2–3 weeks.
+            Ships within 2–3 days.
           </p>
           <button
             onClick={handleAddToCart}
             className="w-full py-4 border border-white text-white text-xs tracking-[0.25em] uppercase hover:bg-white hover:text-black transition-colors duration-300"
             style={{ fontFamily: "var(--font-sans)" }}
           >
-            {added ? "Added to Cart ✓" : "Add to Cart"}
+            {added ? "Added to Cart" : "Add to Cart"}
           </button>
+        </div>
         </div>
       </div>
     </section>
