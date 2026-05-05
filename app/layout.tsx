@@ -17,7 +17,13 @@ export const metadata: Metadata = {
   title: "MCWS — Muslim Community of the Western Suburbs",
   description:
     "Represent your community. Official merch from the Muslim Community of the Western Suburbs of Detroit.",
-  icons: { icon: "/logo.svg" },
+  icons: {
+    icon: [
+      { url: "/logo.svg", type: "image/svg+xml" },
+      { url: "/logo.ico", sizes: "any" },
+    ],
+    apple: { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+  },
   openGraph: {
     title: "MCWS Merch",
     description: "Official merch from the Muslim Community of the Western Suburbs of Detroit.",
