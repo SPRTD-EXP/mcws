@@ -1,6 +1,5 @@
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
-import GeometricDivider from "@/components/geometric-divider";
 
 export const metadata = {
   title: "About — MCWS",
@@ -11,23 +10,19 @@ export default function AboutPage() {
   return (
     <>
       <Nav />
-      <main className="flex flex-col flex-1 pt-28 pb-16 px-6 md:px-12">
-        <div className="max-w-2xl mx-auto w-full text-center">
-          <p
-            className="text-white text-[10px] tracking-[0.4em] uppercase mb-6"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            Our Story
-          </p>
-          <h1
-            className="text-5xl md:text-6xl font-light leading-tight text-white mb-16"
-            style={{ fontFamily: "var(--font-display)" }}
-          >
-            The Brand Behind the Muslim Community of the Western Suburbs
-          </h1>
+      <main className="flex flex-col flex-1 pt-20 pb-16 px-6 md:px-12">
+        <div className="max-w-5xl mx-auto w-full">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <p
+              className="text-white text-[10px] tracking-[0.4em] uppercase mb-2"
+              style={{ fontFamily: "var(--font-sans)" }}
+            >
+              Our Story
+            </p>
+          </div>
 
-          <div className="space-y-16">
-            <section>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/10">
+            <section className="bg-black p-8 md:p-10 text-center">
               <h2
                 className="text-2xl font-light text-white mb-5"
                 style={{ fontFamily: "var(--font-display)" }}
@@ -39,54 +34,50 @@ export default function AboutPage() {
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 <p>
-                  MCWS is a Muslim community rooted in faith, service, and belonging in the heart of metropolitan Detroit. We are neighbors, families, and friends united by a shared commitment to our deen and to one another.
+                  MCWS is the Muslim Community of the Western Suburbs of Detroit. We are neighbors, families, and friends who found in each other what makes a place feel like home.
                 </p>
                 <p>
-                  Founded to serve the growing Muslim population of the western suburbs, our community has grown into a vibrant center of worship, education, and mutual support — a home for Muslims of all backgrounds.
+                  What has been built here is not just a masjid. It is a community that shows up, whether that is for prayer, for learning, and for one another.
                 </p>
               </div>
             </section>
 
-            <GeometricDivider />
-
-            <section>
+            <section className="bg-black p-8 md:p-10 text-center">
               <h2
                 className="text-2xl font-light text-white mb-5"
                 style={{ fontFamily: "var(--font-display)" }}
               >
-                Our Mission
+                Represent the Community
               </h2>
               <div
                 className="text-white/60 text-sm leading-7 space-y-4"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 <p>
-                  We strive to strengthen the spiritual, social, and civic lives of Muslims in the western suburbs of Detroit — providing a welcoming space for prayer, learning, and community connection.
+                  This clothing line exists because the community wanted a way to be seen beyond the walls of the masjid. At school, at work, out in the world. The MCWS name on your chest is recognition for those who know it and an introduction for those who do not.
                 </p>
                 <p>
-                  From Friday Jumu&apos;ah to youth programs, community iftars to charitable initiatives, MCWS exists to serve its members and the broader community with integrity and compassion.
+                  Wearing MCWS means carrying something with you. A community, a faith, a home.
                 </p>
               </div>
             </section>
 
-            <GeometricDivider />
-
-            <section>
+            <section className="bg-black p-8 md:p-10 text-center">
               <h2
                 className="text-2xl font-light text-white mb-5"
                 style={{ fontFamily: "var(--font-display)" }}
               >
-                The Hoodie
+                Every Purchase Goes Back
               </h2>
               <div
                 className="text-white/60 text-sm leading-7 space-y-4"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 <p>
-                  This hoodie is more than clothing — it is a declaration of identity. Wearing MCWS means carrying your community with you, a visible expression of faith and belonging wherever you go.
+                   A portion of proceeds will go directly back into MCWS youth programs and initiatives.
                 </p>
                 <p>
-                  Made to order, each piece is crafted with care. Proceeds support the ongoing work of our community.
+                  These allocated funds will go into social events, Islamic education, and leadership development. The youth in this community deserve a place built for them. Every purchase helps make that possible.
                 </p>
               </div>
             </section>
@@ -97,10 +88,10 @@ export default function AboutPage() {
               href="https://mcws.org"
               target="_blank"
               rel="noopener noreferrer"
-              className="block w-full py-4 border border-white text-white text-xs tracking-[0.25em] uppercase hover:bg-white hover:text-black transition-colors duration-200"
+              className="block w-full py-4 border border-white text-white text-xs tracking-[0.25em] uppercase text-center hover:bg-white hover:text-black transition-colors duration-200"
               style={{ fontFamily: "var(--font-sans)" }}
             >
-              Visit MCWS
+              Learn More
             </a>
           </div>
         </div>

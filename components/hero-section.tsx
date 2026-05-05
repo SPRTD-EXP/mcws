@@ -56,7 +56,7 @@ export default function HeroSection() {
         className="absolute top-[72px] left-0 right-0 z-10 text-center text-white text-[10px] tracking-[0.4em] uppercase opacity-0 py-3"
         style={{ fontFamily: "var(--font-sans)" }}
       >
-        Muslim Community of the Western Suburbs · Detroit
+        Store for the Muslim Community of the Western Suburbs
       </p>
 
       {/* Button + scroll indicator pinned to bottom */}
