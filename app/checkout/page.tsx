@@ -119,6 +119,7 @@ function CheckoutForm({
   const elements = useElements();
 
   const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [addressValue, setAddressValue] = useState<AddressValue | null>(null);
   const [taxCents, setTaxCents] = useState<number | null>(null);
@@ -127,6 +128,7 @@ function CheckoutForm({
   const [loading, setLoading] = useState(false);
 
   function handleInfoNext() {
+    if (!name.trim()) { setError("Please enter your name."); return; }
     if (!email.trim()) { setError("Please enter your email."); return; }
     setError(null);
     setStep(2);
@@ -227,6 +229,13 @@ function CheckoutForm({
           {step === 1 && (
             <div className="space-y-6">
               <Field
+                label="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Full Name"
+                required
+              />
+              <Field
                 label="Email"
                 type="email"
                 value={email}
@@ -256,7 +265,7 @@ function CheckoutForm({
                   Shipping Address
                 </p>
                 <AddressElement
-                  options={{ mode: "shipping", defaultValues: { address: { country: "US" } } }}
+                  options={{ mode: "shipping", defaultValues: { name, address: { country: "US" } } }}
                   onChange={(e) => setAddressValue(e.complete ? (e.value as AddressValue) : null)}
                 />
               </div>
