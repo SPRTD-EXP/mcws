@@ -14,9 +14,9 @@ const cormorant = Cormorant_Garamond({
 
 
 export const metadata: Metadata = {
-  title: "MCWS — Muslim Community of the Western Suburbs",
+  title: "MCWS SHOP",
   description:
-    "Represent your community. Official merch from the Muslim Community of the Western Suburbs of Detroit.",
+    "Represent your community. Official Store for the Muslim Community of the Western Suburbs of Detroit.",
   icons: {
     icon: [
       { url: "/logo.svg", type: "image/svg+xml" },
@@ -25,8 +25,8 @@ export const metadata: Metadata = {
     apple: { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
   },
   openGraph: {
-    title: "MCWS Merch",
-    description: "Official merch from the Muslim Community of the Western Suburbs of Detroit.",
+    title: "MCWS SHOP",
+    description: "Official Store for the Muslim Community of the Western Suburbs of Detroit.",
     type: "website",
   },
 };

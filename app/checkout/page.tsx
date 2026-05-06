@@ -130,6 +130,7 @@ function CheckoutForm({
   function handleInfoNext() {
     if (!name.trim()) { setError("Please enter your name."); return; }
     if (!email.trim()) { setError("Please enter your email."); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) { setError("Please enter a valid email address."); return; }
     setError(null);
     setStep(2);
   }
@@ -212,17 +213,31 @@ function CheckoutForm({
         <div className="w-full max-w-[500px]">
           {/* Step indicator */}
           <div className="flex items-center justify-between mb-12">
-            {stepLabels.map((label, i) => (
-              <span
-                key={label}
-                className={`text-[10px] tracking-[0.3em] uppercase transition-colors ${
-                  step === i + 1 ? "text-white" : step > i + 1 ? "text-white/40" : "text-white/20"
-                }`}
-                style={{ fontFamily: "var(--font-sans)" }}
-              >
-                {label}
-              </span>
-            ))}
+            {stepLabels.map((label, i) => {
+              const stepNum = (i + 1) as 1 | 2 | 3;
+              const isCompleted = step > stepNum;
+              return isCompleted ? (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={() => { setError(null); setStep(stepNum); }}
+                  className="text-[10px] tracking-[0.3em] uppercase text-white/40 hover:text-white/70 transition-colors"
+                  style={{ fontFamily: "var(--font-sans)" }}
+                >
+                  {label}
+                </button>
+              ) : (
+                <span
+                  key={label}
+                  className={`text-[10px] tracking-[0.3em] uppercase transition-colors ${
+                    step === stepNum ? "text-white" : "text-white/20"
+                  }`}
+                  style={{ fontFamily: "var(--font-sans)" }}
+                >
+                  {label}
+                </span>
+              );
+            })}
           </div>
 
           {/* Step 1: INFO */}
@@ -281,6 +296,14 @@ function CheckoutForm({
               >
                 {loading ? "Calculating tax..." : "Continue"}
               </button>
+              <button
+                type="button"
+                onClick={() => { setError(null); setStep(1); }}
+                className="w-full text-xs tracking-[0.2em] uppercase text-white/30 hover:text-white/60 transition-colors py-2"
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                ← Back
+              </button>
             </div>
           )}
 
@@ -303,6 +326,14 @@ function CheckoutForm({
               <p className="text-white/30 text-[10px] text-center" style={{ fontFamily: "var(--font-sans)" }}>
                 Secure payment via Stripe. Made to order — ships within 2–3 weeks.
               </p>
+              <button
+                type="button"
+                onClick={() => { setError(null); setStep(2); }}
+                className="w-full text-xs tracking-[0.2em] uppercase text-white/30 hover:text-white/60 transition-colors py-2"
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                ← Back
+              </button>
             </form>
           )}
         </div>
