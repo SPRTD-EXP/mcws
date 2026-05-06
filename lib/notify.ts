@@ -17,7 +17,7 @@ interface OrderDetails {
   customerName: string;
   customerEmail: string;
   items: CartItem[];
-  fulfillmentMethod: "shipping" | "pickup";
+  fulfillmentMethod: "shipping";
   shippingAddress?: {
     line1?: string | null;
     line2?: string | null;
@@ -30,7 +30,6 @@ interface OrderDetails {
 
 export async function notifyManufacturer(order: OrderDetails) {
   const recipientEmail = process.env.MANUFACTURER_EMAIL!;
-  const isShipping = order.fulfillmentMethod === "shipping";
   const totalCents = order.items.reduce((sum, i) => sum + i.price_cents * i.quantity, 0);
 
   const itemRows = order.items
@@ -44,17 +43,16 @@ export async function notifyManufacturer(order: OrderDetails) {
     )
     .join("");
 
-  const addressBlock =
-    isShipping && order.shippingAddress
-      ? `<p><strong>Ship To:</strong><br>
+  const addressBlock = order.shippingAddress
+    ? `<p><strong>Ship To:</strong><br>
         ${order.shippingAddress.line1}${order.shippingAddress.line2 ? ", " + order.shippingAddress.line2 : ""}<br>
         ${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.postal_code}</p>`
-      : "<p><strong>Fulfillment:</strong> Local Pickup — deliver to mosque.</p>";
+    : "";
 
   await getResend().emails.send({
     from: "MCWS Orders <orders@mcws.org>",
     to: recipientEmail,
-    subject: `New Order — ${order.items.length} item${order.items.length > 1 ? "s" : ""} (${isShipping ? "Ship" : "Pickup"})`,
+    subject: `New Order — ${order.items.length} item${order.items.length > 1 ? "s" : ""}`,
     html: `
       <div style="font-family:sans-serif;max-width:540px;color:#111;">
         <h2 style="font-size:20px;margin-bottom:4px;">New MCWS Order</h2>

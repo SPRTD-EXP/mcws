@@ -15,8 +15,6 @@ import Logo from "@/components/logo";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
-type Fulfillment = "shipping" | "pickup";
-
 type AddressValue = {
   name: string;
   address: {
@@ -51,13 +49,11 @@ function OrderSummary({
   subtotalCents,
   taxCents,
   totalCents,
-  fulfillment,
 }: {
   items: LineItem[];
   subtotalCents: number;
   taxCents: number | null;
   totalCents: number;
-  fulfillment: Fulfillment;
 }) {
   return (
     <div className="lg:w-[380px] lg:border-l lg:border-white/10 px-6 lg:px-10 py-12 flex flex-col gap-8 border-t border-white/10 lg:border-t-0">
@@ -90,18 +86,12 @@ function OrderSummary({
         </div>
         <div className="flex justify-between text-xs">
           <span className="tracking-[0.15em] uppercase text-white/50" style={{ fontFamily: "var(--font-sans)" }}>Shipping</span>
-          <span className="text-white" style={{ fontFamily: "var(--font-sans)" }}>
-            {fulfillment === "pickup" ? "N/A" : "Free"}
-          </span>
+          <span className="text-white" style={{ fontFamily: "var(--font-sans)" }}>Free</span>
         </div>
         <div className="flex justify-between text-xs">
           <span className="tracking-[0.15em] uppercase text-white/50" style={{ fontFamily: "var(--font-sans)" }}>Tax</span>
           <span className="text-white" style={{ fontFamily: "var(--font-sans)" }}>
-            {fulfillment === "pickup"
-              ? "N/A"
-              : taxCents === null
-              ? "Calculated at checkout"
-              : `$${(taxCents / 100).toFixed(2)}`}
+            {taxCents === null ? "Calculated at checkout" : `$${(taxCents / 100).toFixed(2)}`}
           </span>
         </div>
         <hr className="border-white/10" />
@@ -129,9 +119,7 @@ function CheckoutForm({
   const elements = useElements();
 
   const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [fulfillment, setFulfillment] = useState<Fulfillment>("shipping");
   const [email, setEmail] = useState("");
-  const [pickupName, setPickupName] = useState("");
   const [addressValue, setAddressValue] = useState<AddressValue | null>(null);
   const [taxCents, setTaxCents] = useState<number | null>(null);
   const [totalCents, setTotalCents] = useState(subtotalCents);
@@ -140,9 +128,8 @@ function CheckoutForm({
 
   function handleInfoNext() {
     if (!email.trim()) { setError("Please enter your email."); return; }
-    if (fulfillment === "pickup" && !pickupName.trim()) { setError("Please enter your name."); return; }
     setError(null);
-    setStep(fulfillment === "shipping" ? 2 : 3);
+    setStep(2);
   }
 
   async function handleShippingNext() {
@@ -177,7 +164,7 @@ function CheckoutForm({
       await fetch("/api/checkout", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ paymentIntentId, email: email.trim(), fulfillmentMethod: fulfillment }),
+        body: JSON.stringify({ paymentIntentId, email: email.trim(), fulfillmentMethod: "shipping" }),
       });
     } catch { /* non-blocking */ }
 
@@ -185,13 +172,13 @@ function CheckoutForm({
       return_url: `${window.location.origin}/order/success`,
       payment_method_data: {
         billing_details: {
-          name: fulfillment === "shipping" ? addressValue?.name : pickupName.trim(),
+          name: addressValue?.name,
           email: email.trim(),
         },
       },
     };
 
-    if (fulfillment === "shipping" && addressValue) {
+    if (addressValue) {
       confirmParams.shipping = {
         name: addressValue.name,
         address: {
@@ -247,42 +234,6 @@ function CheckoutForm({
                 placeholder="Enter Your Email"
                 required
               />
-
-              <div>
-                <p className="text-[10px] tracking-[0.3em] uppercase text-white mb-3" style={{ fontFamily: "var(--font-sans)" }}>
-                  Fulfillment
-                </p>
-                <div className="flex border border-white w-full">
-                  {(["shipping", "pickup"] as Fulfillment[]).map((method) => (
-                    <button
-                      key={method}
-                      type="button"
-                      onClick={() => setFulfillment(method)}
-                      className={`flex-1 py-2.5 text-xs tracking-[0.15em] uppercase transition-all duration-200 ${
-                        fulfillment === method ? "bg-white text-black" : "bg-transparent text-white hover:text-white/60"
-                      }`}
-                      style={{ fontFamily: "var(--font-sans)" }}
-                    >
-                      {method === "shipping" ? "Ship to Me" : "Local Pickup"}
-                    </button>
-                  ))}
-                </div>
-                {fulfillment === "pickup" && (
-                  <p className="text-white/50 text-xs mt-3" style={{ fontFamily: "var(--font-sans)" }}>
-                    Pick up at the mosque. Address provided after purchase.
-                  </p>
-                )}
-              </div>
-
-              {fulfillment === "pickup" && (
-                <Field
-                  label="Your Name"
-                  value={pickupName}
-                  onChange={(e) => setPickupName(e.target.value)}
-                  placeholder="Full name"
-                  required
-                />
-              )}
 
               {error && <p className="text-red-400 text-xs" style={{ fontFamily: "var(--font-sans)" }}>{error}</p>}
 
@@ -354,7 +305,6 @@ function CheckoutForm({
         subtotalCents={subtotalCents}
         taxCents={taxCents}
         totalCents={totalCents}
-        fulfillment={fulfillment}
       />
     </div>
   );

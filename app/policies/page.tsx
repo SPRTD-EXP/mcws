@@ -52,11 +52,6 @@ export default function PoliciesPage() {
                   MCWS is not responsible for delays caused by carriers once
                   the package has been handed off.
                 </p>
-                <p>
-                  For local pickup orders, you will be notified by email when
-                  your order is ready. Pickup is available at the mosque
-                  address provided upon order confirmation.
-                </p>
               </div>
             </section>
 

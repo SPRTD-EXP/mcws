@@ -6,10 +6,12 @@ import { notifyCustomer } from "@/lib/notify-customer";
 import type Stripe from "stripe";
 
 export async function POST(req: NextRequest) {
+  console.log("🪝 Webhook POST received");
   const body = await req.text();
   const sig = req.headers.get("stripe-signature");
 
   if (!sig) {
+    console.log("🪝 Missing stripe-signature header");
     return new Response("Missing stripe-signature header", { status: 400 });
   }
 
@@ -20,9 +22,12 @@ export async function POST(req: NextRequest) {
       sig,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
-  } catch {
+  } catch (err) {
+    console.log("🪝 Signature verification failed:", err);
     return new Response("Webhook signature verification failed", { status: 400 });
   }
+
+  console.log("🪝 Event type:", event.type);
 
   if (event.type === "payment_intent.succeeded") {
     await handlePaymentIntentSucceeded(event.data.object as Stripe.PaymentIntent);
@@ -41,7 +46,7 @@ async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent) {
   }
 
   const shipping = pi.shipping;
-  const fulfillmentMethod = ((meta.fulfillment_method ?? (shipping?.address ? "shipping" : "pickup")) as "shipping" | "pickup");
+  const fulfillmentMethod = "shipping" as const;
   const customerName = shipping?.name ?? "Customer";
 
   const shippingAddress = shipping?.address
@@ -111,11 +116,14 @@ async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent) {
   // Decrement stock for each item atomically
   for (const item of items as Array<{ productId?: string; size?: string; quantity: number }>) {
     if (!item.productId || !item.size) continue;
-    const { data: decremented } = await supabase.rpc("decrement_stock", {
+    const { data: decremented, error: rpcError } = await supabase.rpc("decrement_stock", {
       p_product_id: item.productId,
       p_size: item.size,
       p_qty: item.quantity,
     });
+    if (rpcError) {
+      console.error(`Webhook: decrement_stock RPC error for ${item.size}:`, rpcError);
+    }
     if (!decremented) {
       console.warn(`Webhook: stock already depleted for ${item.size} on order ${order.id}`);
       await supabase

@@ -184,7 +184,7 @@ export default function ProductClient({ product, priceCents, stripePriceId }: Pr
           <select
             value={selectedSize ?? ""}
             onChange={(e) => setSelectedSize(e.target.value || null)}
-            className="w-full bg-transparent border border-white/20 text-white text-xs tracking-[0.15em] uppercase px-4 py-3 outline-none focus:border-white transition-colors duration-200 appearance-none cursor-pointer text-center"
+            className="w-full bg-transparent border border-white/20 text-white text-xs tracking-[0.15em] uppercase px-4 py-3 outline-none focus:border-white transition-colors duration-200 appearance-none cursor-pointer text-center [text-align-last:center]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             <option value="" disabled className="bg-black">— Select Size —</option>

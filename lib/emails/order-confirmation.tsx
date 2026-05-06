@@ -21,7 +21,7 @@ export interface OrderConfirmationProps {
   customerName: string;
   customerEmail: string;
   items: { name: string; size: string; quantity: number; price_cents: number }[];
-  fulfillmentMethod: "shipping" | "pickup";
+  fulfillmentMethod: "shipping";
   shippingAddress?: {
     line1?: string | null;
     line2?: string | null;
@@ -98,9 +98,7 @@ export default function OrderConfirmationEmail({
               </Column>
               <Column style={orderMetaColumn}>
                 <Text style={metaLabel}>Method</Text>
-                <Text style={metaValue}>
-                  {fulfillmentMethod === "shipping" ? "Shipping" : "Pickup"}
-                </Text>
+                <Text style={metaValue}>Shipping</Text>
               </Column>
             </Row>
           </Section>
@@ -153,10 +151,8 @@ export default function OrderConfirmationEmail({
 
           {/* Fulfillment */}
           <Section style={fulfillmentSection}>
-            <Text style={sectionHeading}>
-              {fulfillmentMethod === "shipping" ? "Shipping To" : "Pickup Location"}
-            </Text>
-            {fulfillmentMethod === "shipping" && shippingAddress ? (
+            <Text style={sectionHeading}>Shipping To</Text>
+            {shippingAddress && (
               <>
                 <Text style={addressText}>{shippingAddress.line1}</Text>
                 {shippingAddress.line2 && (
@@ -166,16 +162,9 @@ export default function OrderConfirmationEmail({
                   {shippingAddress.city}, {shippingAddress.state} {shippingAddress.postal_code}
                 </Text>
               </>
-            ) : (
-              <Text style={addressText}>
-                Muslim Community of the Western Suburbs · Detroit
-              </Text>
             )}
             <Text style={timelineText}>
-              Made to order — ships within 2–3 weeks.
-              {fulfillmentMethod === "shipping"
-                ? " You'll receive tracking info once your order ships."
-                : " We'll notify you when your order is ready for pickup."}
+              Made to order — ships within 2–3 weeks. You&apos;ll receive tracking info once your order ships.
             </Text>
           </Section>
 

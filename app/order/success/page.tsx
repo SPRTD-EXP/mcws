@@ -1,6 +1,7 @@
 import { createServerSupabaseClient } from "@/lib/supabase";
 import Logo from "@/components/logo";
 import Link from "next/link";
+import ClearCartOnSuccess from "@/components/clear-cart-on-success";
 
 export default async function OrderSuccessPage({
   searchParams,
@@ -44,6 +45,7 @@ export default async function OrderSuccessPage({
         <Logo size="sm" />
       </header>
 
+      <ClearCartOnSuccess />
       <main className="max-w-lg mx-auto px-6 py-16 text-center">
         <div className="mb-10">
           <h1
@@ -92,39 +94,30 @@ export default async function OrderSuccessPage({
           </div>
         )}
 
-        {order?.fulfillment_method && (
+        {order?.shipping_address && (
           <div className="mb-10 p-5 bg-[#111] border border-white/10">
             <p
               className="text-[10px] tracking-[0.3em] uppercase text-white/40 mb-3"
               style={{ fontFamily: "var(--font-sans)" }}
             >
-              {order.fulfillment_method === "shipping" ? "Shipping To" : "Pickup Details"}
+              Shipping To
             </p>
-            {order.fulfillment_method === "pickup" ? (
-              <p
-                className="text-sm text-white/70 leading-relaxed"
-                style={{ fontFamily: "var(--font-sans)" }}
-              >
-                Your order will be available for pickup at the mosque. We&apos;ll contact you with the address and pickup window.
-              </p>
-            ) : order.shipping_address ? (
-              <address
-                className="text-sm text-white/70 not-italic leading-relaxed"
-                style={{ fontFamily: "var(--font-sans)" }}
-              >
-                {(order.shipping_address as Record<string, string>).line1}
-                <br />
-                {(order.shipping_address as Record<string, string>).line2 && (
-                  <>
-                    {(order.shipping_address as Record<string, string>).line2}
-                    <br />
-                  </>
-                )}
-                {(order.shipping_address as Record<string, string>).city},{" "}
-                {(order.shipping_address as Record<string, string>).state}{" "}
-                {(order.shipping_address as Record<string, string>).postal_code}
-              </address>
-            ) : null}
+            <address
+              className="text-sm text-white/70 not-italic leading-relaxed"
+              style={{ fontFamily: "var(--font-sans)" }}
+            >
+              {(order.shipping_address as Record<string, string>).line1}
+              <br />
+              {(order.shipping_address as Record<string, string>).line2 && (
+                <>
+                  {(order.shipping_address as Record<string, string>).line2}
+                  <br />
+                </>
+              )}
+              {(order.shipping_address as Record<string, string>).city},{" "}
+              {(order.shipping_address as Record<string, string>).state}{" "}
+              {(order.shipping_address as Record<string, string>).postal_code}
+            </address>
           </div>
         )}
 
