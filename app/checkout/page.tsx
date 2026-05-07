@@ -302,7 +302,7 @@ function CheckoutForm({
                 className="w-full text-xs tracking-[0.2em] uppercase text-white/30 hover:text-white/60 transition-colors py-2"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
-                ← Back
+                Back
               </button>
             </div>
           )}
@@ -310,7 +310,7 @@ function CheckoutForm({
           {/* Step 3: PAYMENT */}
           {step === 3 && (
             <form onSubmit={handlePayment} className="space-y-6">
-              <PaymentElement options={{ layout: "tabs" }} />
+              <PaymentElement options={{ layout: "tabs", wallets: { applePay: "auto", googlePay: "auto" } }} />
 
               {error && <p className="text-red-400 text-xs" style={{ fontFamily: "var(--font-sans)" }}>{error}</p>}
 
@@ -332,7 +332,7 @@ function CheckoutForm({
                 className="w-full text-xs tracking-[0.2em] uppercase text-white/30 hover:text-white/60 transition-colors py-2"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
-                ← Back
+                Back
               </button>
             </form>
           )}
