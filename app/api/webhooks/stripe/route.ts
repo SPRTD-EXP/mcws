@@ -1,8 +1,6 @@
 import { NextRequest } from "next/server";
 import { getStripe } from "@/lib/stripe";
-import { createServiceSupabaseClient } from "@/lib/supabase";
-import { notifyManufacturer } from "@/lib/notify";
-import { notifyCustomer } from "@/lib/notify-customer";
+import { fulfillOrder } from "@/lib/fulfill-order";
 import type Stripe from "stripe";
 
 export async function POST(req: NextRequest) {
@@ -30,139 +28,10 @@ export async function POST(req: NextRequest) {
   console.log("🪝 Event type:", event.type);
 
   if (event.type === "payment_intent.succeeded") {
-    await handlePaymentIntentSucceeded(event.data.object as Stripe.PaymentIntent);
+    const pi = event.data.object as Stripe.PaymentIntent;
+    const result = await fulfillOrder(pi.id);
+    console.log("🪝 fulfillOrder result:", result.status);
   }
 
   return new Response("OK", { status: 200 });
-}
-
-async function handlePaymentIntentSucceeded(pi: Stripe.PaymentIntent) {
-  const meta = pi.metadata ?? {};
-  const items = meta.items ? JSON.parse(meta.items) : [];
-
-  if (!items.length) {
-    console.error("Webhook: no items in metadata", meta);
-    return;
-  }
-
-  const shipping = pi.shipping;
-  const fulfillmentMethod = "shipping" as const;
-  const customerName = shipping?.name ?? "Customer";
-
-  const shippingAddress = shipping?.address
-    ? {
-        line1: shipping.address.line1,
-        line2: shipping.address.line2,
-        city: shipping.address.city,
-        state: shipping.address.state,
-        postal_code: shipping.address.postal_code,
-        country: shipping.address.country,
-      }
-    : null;
-
-  const supabase = createServiceSupabaseClient();
-
-  // Idempotency check — skip if this PI already has an order
-  const { data: existing } = await supabase
-    .from("orders")
-    .select("id")
-    .eq("stripe_payment_intent", pi.id)
-    .maybeSingle();
-
-  if (existing) {
-    console.log("Webhook: order already exists for PI", pi.id, "— skipping");
-    return;
-  }
-
-  const { data: order, error } = await supabase
-    .from("orders")
-    .insert({
-      items,
-      product_id: items[0]?.productId ?? null,
-      quantity: items.reduce((sum: number, i: { quantity: number }) => sum + i.quantity, 0),
-      customer_name: customerName,
-      customer_email: pi.receipt_email ?? meta.email ?? "",
-      fulfillment_method: fulfillmentMethod,
-      shipping_address: shippingAddress,
-      billing_address: shippingAddress, // same as shipping for now
-      stripe_session_id: pi.id,
-      stripe_payment_intent: pi.id,
-      payment_status: "paid",
-      fulfillment_status: "pending",
-    })
-    .select("id, order_number")
-    .single();
-
-  if (error) {
-    console.error("Webhook: failed to insert order", error);
-    return;
-  }
-
-  const orderItemRows = items.map((item: { productId?: string; stripePriceId?: string; name: string; size?: string; quantity: number; price_cents: number }) => ({
-    order_id: order.id,
-    product_id: item.productId ?? null,
-    stripe_price_id: item.stripePriceId ?? null,
-    name: item.name,
-    size: item.size ?? null,
-    quantity: item.quantity,
-    unit_price_cents: item.price_cents,
-  }));
-
-  const { error: itemsError } = await supabase.from("order_items").insert(orderItemRows);
-  if (itemsError) {
-    console.error("Webhook: failed to insert order_items", itemsError);
-  }
-
-  // Decrement stock for each item atomically
-  for (const item of items as Array<{ productId?: string; size?: string; quantity: number }>) {
-    if (!item.productId || !item.size) continue;
-    const { data: decremented, error: rpcError } = await supabase.rpc("decrement_stock", {
-      p_product_id: item.productId,
-      p_size: item.size,
-      p_qty: item.quantity,
-    });
-    if (rpcError) {
-      console.error(`Webhook: decrement_stock RPC error for ${item.size}:`, rpcError);
-    }
-    if (!decremented) {
-      console.warn(`Webhook: stock already depleted for ${item.size} on order ${order.id}`);
-      await supabase
-        .from("orders")
-        .update({ notes: `Stock depleted for size ${item.size} at fulfillment` })
-        .eq("id", order.id);
-    }
-  }
-
-  const taxCents = parseInt(meta.tax_cents || "0");
-  const customerEmail = pi.receipt_email ?? meta.email ?? "";
-
-  try {
-    await notifyManufacturer({
-      orderId: order.id,
-      orderNumber: order.order_number,
-      customerName,
-      customerEmail,
-      items,
-      fulfillmentMethod,
-      shippingAddress,
-    });
-  } catch (err) {
-    console.error("Webhook: manufacturer notification failed", err);
-  }
-
-  try {
-    await notifyCustomer({
-      orderNumber: order.order_number,
-      customerName,
-      customerEmail,
-      items,
-      fulfillmentMethod,
-      shippingAddress,
-      subtotalCents: pi.amount - taxCents,
-      taxCents,
-      totalCents: pi.amount,
-    });
-  } catch (err) {
-    console.error("Webhook: customer notification failed", err);
-  }
 }

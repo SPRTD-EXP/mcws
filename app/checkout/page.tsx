@@ -149,6 +149,7 @@ function CheckoutForm({
       if (data.taxCents !== undefined) {
         setTaxCents(data.taxCents);
         setTotalCents(data.totalCents);
+        await elements?.fetchUpdates();
       }
     } catch {
       // Non-blocking — proceed to payment even if tax calc fails

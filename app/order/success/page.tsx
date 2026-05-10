@@ -1,4 +1,5 @@
 import { createServerSupabaseClient } from "@/lib/supabase";
+import { fulfillOrder } from "@/lib/fulfill-order";
 import Logo from "@/components/logo";
 import Link from "next/link";
 import ClearCartOnSuccess from "@/components/clear-cart-on-success";
@@ -31,6 +32,9 @@ export default async function OrderSuccessPage({
       </div>
     );
   }
+
+  // Process order directly — no webhook dependency
+  await fulfillOrder(paymentIntentId);
 
   const supabase = createServerSupabaseClient();
   const { data: order } = await supabase
