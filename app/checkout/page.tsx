@@ -27,7 +27,7 @@ type AddressValue = {
   };
 };
 
-type LineItem = { name: string; size: string; quantity: number; price_cents: number };
+type LineItem = { productId: string; name: string; size: string; quantity: number; price_cents: number };
 
 function Field({ label, ...props }: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) {
   return (
@@ -163,6 +163,23 @@ function CheckoutForm({
     if (!stripe || !elements) return;
     setError(null);
     setLoading(true);
+
+    // Re-validate stock at payment time in case items sold out during checkout
+    try {
+      const stockRes = await fetch("/api/checkout/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items }),
+      });
+      if (!stockRes.ok) {
+        const { error } = await stockRes.json();
+        setError(error ?? "An item in your cart is no longer available.");
+        setLoading(false);
+        return;
+      }
+    } catch {
+      // Non-blocking — if validation fails to reach server, let Stripe handle it
+    }
 
     try {
       await fetch("/api/checkout", {
